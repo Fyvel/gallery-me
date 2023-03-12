@@ -1,6 +1,7 @@
 import './globals.css'
 import GlobalMetaTags from '@/components/global-meta-tags'
 import { Sono } from 'next/font/google'
+import Pwa from '@/components/pwa'
 
 const galleryMeFont = Sono({
 	subsets: ['latin'],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<GlobalMetaTags />
 			</head>
 			<body className={`${galleryMeFont.variable} font-sans`}>
+				<Pwa />
 				{/* menu */}
 				<div>Menu</div>
 				<div>
