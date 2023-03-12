@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (prefers-color-scheme: dark) {
+	html {
+		color-scheme: dark;
+	}
+}
+
+@font-face {
+	font-family: "GalleryMeFont";
+	src: url("https://fonts.googleapis.com/css2?family=Sono&display=swap");
+	font-display: swap;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+	width: 0;
+	background: transparent;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "GalleryMeFont", sans-serif;
+	background-color: var(--body-color);
+	color: var(--text-color);
+}
+
+/* npx pwa-asset-generator ./public/icons/library.png ./public/icons -b "#6cab0d" */
