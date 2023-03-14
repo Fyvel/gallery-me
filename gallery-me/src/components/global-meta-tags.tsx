@@ -1,4 +1,4 @@
-export default function GlobalMetaTags() {	
+export default function GlobalMetaTags() {
 	return (
 		<>
 			<link rel="manifest" href="/manifest.webmanifest" />

@@ -1,6 +1,12 @@
 # gallery-me
 Personal gallery of things
 
+Tech stack:
+- NextJS 13 *PWA / Typescript*
+- TailwindCSS *headlessui / heroicons*
+- Firebase Authentication
+
+
 ===================================
 
 Git commit icons
