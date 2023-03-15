@@ -5,13 +5,14 @@ import Image from 'next/image'
 import { Bars3Icon, MagnifyingGlassIcon, PowerIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
-const navigation = [
+const initialNavigation = [
 	{ name: 'Movies', href: '/movies', current: true },
-	{ name: 'Tv Shows', href: '/tvshows', current: false },
+	{ name: 'Tv Shows', href: '/tv-shows', current: false },
 	{ name: 'Books', href: '/books', current: false },
-	{ name: 'My collections', href: '/my-collections', current: false },
+	{ name: 'My collections', href: '/collections', current: false },
 ]
 
 const signInOptions = [
@@ -25,17 +26,29 @@ function classNames(...classes: string[]) {
 
 export default function Header() {
 	const { data: session } = useSession()
+	const pathname = usePathname()
+	const [navigation, setNavigation] = useState<typeof initialNavigation>(initialNavigation)
+
+	useEffect(() => {
+		if (!pathname) return
+		setNavigation(prev => prev.map(
+			item => ({
+				...item,
+				current: pathname.includes(item.href)
+			})
+		))
+	}, [pathname])
 
 	return (
 		<header className="bg-jet">
-			<Disclosure as="nav" className="bg-gray-800 relative">
+			<Disclosure as="nav" className="relative">
 				{({ open }) => (
 					<>
 						<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 							<div className="relative flex h-16 items-center justify-between">
 								<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 									{/* Mobile menu button */}
-									<Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+									<Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-jet/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
 										<span className="sr-only">Open main menu</span>
 										{open ? (
 											<XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -61,7 +74,7 @@ export default function Header() {
 													className={classNames(
 														item.current
 															? 'bg-blue/10 italic'
-															: 'hover:font-semibold hover:scale-110',
+															: 'hover:font-semibold hover:scale-110 hover:bg-blue/10',
 														'rounded-md px-3 py-2 text-sm font-medium transition-all duration-200'
 													)}
 													aria-current={item.current ? 'page' : undefined}
@@ -119,7 +132,7 @@ export default function Header() {
 																	<button
 																		onClick={() => signIn(option.provider)}
 																		role="button"
-																		className='flex w-full px-4 py-2 rounded-md text-sm text-gray-700 hover:bg-blue/10'
+																		className='flex w-full px-4 py-2 rounded-md text-sm hover:bg-blue/10'
 																	>
 																		{option.name}
 																	</button>
@@ -141,7 +154,9 @@ export default function Header() {
 										as="a"
 										href={item.href}
 										className={classNames(
-											item.current ? 'bg-blue/10 italic' : 'hover:font-bold',
+											item.current
+												? 'bg-blue/10 italic'
+												: 'hover:font-bold hover:bg-blue/10',
 											'block rounded-md px-3 py-2 text-base font-medium'
 										)}
 										aria-current={item.current ? 'page' : undefined}
