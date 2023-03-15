@@ -9,6 +9,7 @@ export default function Footer() {
 					<p>All&nbsp;rights&nbsp;reserved.</p>
 				</div>
 				<Link
+					aria-label='GitHub'
 					href="https://github.com/Fyvel/gallery-me"
 					passHref
 					target='_blank'						>
