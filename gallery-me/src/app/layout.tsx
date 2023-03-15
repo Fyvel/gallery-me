@@ -6,6 +6,7 @@ import Pwa from '@/components/pwa'
 import Header from '@/components/header'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import SessionProvider from '@/contexts/session-provider'
+import Footer from '@/components/footer'
 
 const galleryMeFont = Sono({
 	subsets: ['latin'],
@@ -20,7 +21,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const session = await getServerSession(authOptions)
-	
+
 	return (
 		<html lang="en">
 			<head>
@@ -29,11 +30,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<link rel="icon" href="/library.svg" />
 				<GlobalMetaTags />
 			</head>
-			<body className={`${galleryMeFont.variable} font-sans`}>
+			<body className={`${galleryMeFont.variable} font-sans flex flex-col min-h-screen`}>
 				<Pwa />
 				<SessionProvider session={session}>
 					<Header />
-					<div>{children}</div>
+					{children}
+					<Footer />
 				</SessionProvider>
 			</body>
 		</html>

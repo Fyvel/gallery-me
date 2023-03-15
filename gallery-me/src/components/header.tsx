@@ -1,11 +1,11 @@
 'use client'
 
-import Link from "next/link"
-import Image from "next/image"
-import { Bars3Icon, MagnifyingGlassIcon, PowerIcon, UserCircleIcon, XMarkIcon } from "@heroicons/react/24/solid"
+import Link from 'next/link'
+import Image from 'next/image'
+import { Bars3Icon, MagnifyingGlassIcon, PowerIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { signIn, signOut, useSession } from "next-auth/react"
-import { Fragment } from "react"
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { Fragment } from 'react'
 
 const navigation = [
 	{ name: 'Movies', href: '/movies', current: true },
@@ -27,7 +27,7 @@ export default function Header() {
 	const { data: session } = useSession()
 
 	return (
-		<header className="bg-jet text-gray">
+		<header className="bg-jet">
 			<Disclosure as="nav" className="bg-gray-800 relative">
 				{({ open }) => (
 					<>
@@ -44,7 +44,7 @@ export default function Header() {
 										)}
 									</Disclosure.Button>
 								</div>
-								<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+								<div className="flex flex-1 items-center justify-center sm:justify-start">
 									<div className="flex flex-shrink-0 items-center">
 										<Link href="/">
 											<span className="sr-only">Gallery Me</span>
@@ -53,7 +53,7 @@ export default function Header() {
 										</Link>
 									</div>
 									<div className="hidden sm:ml-6 sm:block w-full">
-										<div className="flex justify-center gap-2 md:gap-6">
+										<div className="flex justify-center gap-4 lg:gap-6">
 											{navigation.map((item) => (
 												<a
 													key={item.name}
@@ -88,8 +88,8 @@ export default function Header() {
 												<picture>
 													<img
 														className='h-6 w-6 object-cover rounded-full group-hover:opacity-20 group-hover:scale-125'
-														src={session?.user?.image || `https://ui-avatars.com/api/?name=${session.user?.name || "Lorem Ipsum"}`}
-														alt={session?.user?.name || "Lorem Ipsum"} />
+														src={session?.user?.image || `https://ui-avatars.com/api/?name=${session.user?.name || 'Lorem Ipsum'}`}
+														alt={session?.user?.name || 'Lorem Ipsum'} />
 												</picture>
 												<PowerIcon className="h-6 w-6 absolute top-0 hidden group-hover:block fill-orange" />
 											</button>
