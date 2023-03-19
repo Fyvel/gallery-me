@@ -9,10 +9,10 @@ import { Fragment, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 const initialNavigation = [
-	{ name: 'Movies', href: '/movies', current: true },
-	{ name: 'Tv Shows', href: '/tv-shows', current: false },
-	{ name: 'Books', href: '/books', current: false },
-	{ name: 'My collections', href: '/collections', current: false },
+	{ name: 'Movies', href: '/movies', current: true, private: false },
+	{ name: 'Tv Shows', href: '/tv-shows', current: false, private: false },
+	{ name: 'Books', href: '/books', current: false, private: false },
+	{ name: 'My collections', href: '/collections', current: false, private: true },
 ]
 
 const signInOptions = [
@@ -67,21 +67,23 @@ export default function Header() {
 									</div>
 									<div className="hidden sm:ml-6 sm:block w-full">
 										<div className="flex justify-center gap-4 lg:gap-6">
-											{navigation.map((item) => (
-												<a
-													key={item.name}
-													href={item.href}
-													className={classNames(
-														item.current
-															? 'bg-blue/10 italic'
-															: 'hover:font-semibold hover:scale-110 hover:bg-blue/10',
-														'rounded-md px-3 py-2 text-sm font-medium transition-all duration-200'
-													)}
-													aria-current={item.current ? 'page' : undefined}
-												>
-													{item.name}
-												</a>
-											))}
+											{navigation
+												.filter(item => !item.private || (item.private && session))
+												.map((item) => (
+													<a
+														key={item.name}
+														href={item.href}
+														className={classNames(
+															item.current
+																? 'bg-blue/10 italic'
+																: 'hover:font-semibold hover:scale-110 hover:bg-blue/10',
+															'rounded-md px-3 py-2 text-sm font-medium transition-all duration-200'
+														)}
+														aria-current={item.current ? 'page' : undefined}
+													>
+														{item.name}
+													</a>
+												))}
 										</div>
 									</div>
 								</div>

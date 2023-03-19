@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Home() {
 	return (
-		<main className="bg-blue/10 flex-1">
+		<>
 			<HeroContainer>
 				{/* Hero section */}
 				<div className="text-white py-20 mb-20 sm:mb-32 mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full">
@@ -81,7 +81,7 @@ export default function Home() {
 					</div>
 				</div>
 			</div>
-		</main>
+		</>
 	)
 }
 
