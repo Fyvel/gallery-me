@@ -14,8 +14,7 @@ export default function Home() {
 							Experience entertainment your way - build and organize your own collections of movies, TV shows, and books. Share your collections with friends and family.
 						</p>
 						<Link href="/collections">
-							<button
-								className="bg-blue text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:scale-110 transition-all duration-200 ease-in-out">
+							<button className="cta">
 								Get Started
 							</button>
 						</Link>

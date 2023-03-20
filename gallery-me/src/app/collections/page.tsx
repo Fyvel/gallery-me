@@ -12,12 +12,6 @@ import CollectionForm from '@/components/collection-form'
 export const metadata = {
 	title: 'Collections',
 }
-const yo = [
-	{ id: 1, data: () => ({ name: 'awesome playlist' }) },
-	{ id: 2, data: () => ({ name: 'awesome playlist' }) },
-	{ id: 3, data: () => ({ name: 'awesome playlist' }) },
-	{ id: 4, data: () => ({ name: 'awesome playlist' }) },
-]
 
 export default function Collections() {
 	const { data: session } = useSession()

@@ -5,6 +5,7 @@ Tech stack:
 - NextJS 13 *PWA / Typescript*
 - TailwindCSS *headlessui / heroicons*
 - Firebase Authentication
+- use SWR for data fetching
 
 
 ===================================

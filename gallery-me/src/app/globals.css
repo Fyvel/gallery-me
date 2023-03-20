@@ -33,4 +33,10 @@ body {
 	color: var(--text-color);
 }
 
+@layer components {
+	.cta {
+		@apply bg-blue text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:scale-110 transition-all duration-200 ease-in-out;
+	}
+}
+
 /* npx pwa-asset-generator ./public/icons/library.png ./public/icons -b "#6cab0d" */
