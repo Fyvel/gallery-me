@@ -40,7 +40,7 @@ export default function Header() {
 	}, [pathname])
 
 	return (
-		<header className="bg-jet">
+		<header className="bg-jet fixed w-full">
 			<Disclosure as="nav" className="relative">
 				{({ open }) => (
 					<>
@@ -61,8 +61,8 @@ export default function Header() {
 									<div className="flex flex-shrink-0 items-center">
 										<Link href="/">
 											<span className="sr-only">Gallery Me</span>
-											<Image className="block lg:hidden hover:rotate-45 transition-all duration-200" src="/library.svg" alt="" width={40} height={40} />
-											<Image className="hidden lg:block hover:rotate-45 transition-all duration-200" src="/library.svg" alt="" width={50} height={50} />
+											<Image className="block lg:hidden hover:rotate-45 transition-all duration-200" src="/library.svg" alt="" width={40} height={40} priority />
+											<Image className="hidden lg:block hover:rotate-45 transition-all duration-200" src="/library.svg" alt="" width={50} height={50} priority />
 										</Link>
 									</div>
 									<div className="hidden sm:ml-6 sm:block w-full">
