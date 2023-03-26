@@ -36,7 +36,7 @@ export default function CollectionForm(props: CollectionFormProps) {
 		<Modal {...props} title="New Collection">
 			<form onSubmit={handleSubmit}>
 				<div className="relative px-10 p-6 flex-auto bg-gray-800 text-white">
-					<label className="block text-sm md:text-md mb-1" htmlFor='type' aria-required>Type*</label>
+					<label className="block text-sm md:text-md mb-1" htmlFor="type" aria-required>Type*</label>
 					<select className="max-w-sm shadow appearance-none border rounded w-full py-2 px-1 mb-4"
 						name="type" defaultValue="" required>
 						<option value="" disabled>- Type of collection -</option>
@@ -44,8 +44,8 @@ export default function CollectionForm(props: CollectionFormProps) {
 						<option value="tv-shows">Tv Shows</option>
 						<option value="books">Books</option>
 					</select>
-					<label className="block text-sm md:text-md mb-1" htmlFor='name' aria-required>Name*</label>
-					<input className="max-w-sm shadow appearance-none border rounded w-full py-2 px-1 mb-4" name='name' maxLength={20} required />
+					<label className="block text-sm md:text-md mb-1" htmlFor="name" aria-required>Name*</label>
+					<input className="max-w-sm shadow appearance-none border rounded w-full py-2 px-1 mb-4" name="name" maxLength={20} required />
 				</div>
 				<div className="bg-jet flex items-center justify-end px-10 p-6 border-t border-solid border-gray-300 rounded-b">
 					<button className="cta" type="submit">

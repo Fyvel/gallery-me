@@ -1,6 +1,14 @@
+'use client'
+
+import Login from '@/components/login'
+import { Menu, Transition } from '@headlessui/react'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { Fragment } from 'react'
 
 export default function Home() {
+	const { data: session } = useSession()
+
 	return (
 		<>
 			<HeroContainer>
@@ -13,11 +21,33 @@ export default function Home() {
 						<p className="text-lg mb-10">
 							Experience entertainment your way - build and organize your own collections of movies, TV shows, and books. Share your collections with friends and family.
 						</p>
-						<Link href="/collections">
-							<button className="cta">
-								Get Started
-							</button>
-						</Link>
+						{!session?.user && (
+							<Menu as="div" className="relative ml-3">
+								<Menu.Button className="cta">
+									Get started
+								</Menu.Button>
+								<Transition
+									as={Fragment}
+									enter="transition ease-out duration-100"
+									enterFrom="transform opacity-0 scale-95"
+									enterTo="transform opacity-100 scale-100"
+									leave="transition ease-in duration-75"
+									leaveFrom="transform opacity-100 scale-100"
+									leaveTo="transform opacity-0 scale-95"
+								>
+									<Menu.Items className="absolute top-0 ml-2 translate-x-36 z-10 w-48 rounded-md bg-gold shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none text-black font-semibold">
+										<Login redirectUrl="/collections" />
+									</Menu.Items>
+								</Transition>
+							</Menu>
+						)}
+						{session?.user && (
+							<Link href="/collections">
+								<button className="cta">
+									Get Started
+								</button>
+							</Link>
+						)}
 					</div>
 				</div>
 			</HeroContainer>

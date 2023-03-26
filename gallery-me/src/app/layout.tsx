@@ -34,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<Pwa />
 				<SessionProvider session={session}>
 					<Header />
-					<main className="bg-blue/10 flex-1 mt-16">
+					<main className="bg-nightblue flex-1 mt-16">
 						{children}
 					</main>
 					<Footer />

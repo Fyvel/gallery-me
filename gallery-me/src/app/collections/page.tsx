@@ -58,7 +58,7 @@ export default function Collections() {
 						</li>
 					)}
 					{lists?.docs.map(list => (
-						<li key={list.id} className="h-full w-full flex flex-col border-2 items-center justify-center border-slate-300 text-white py-2 px-4 hover:font-semibold rounded-lg shadow-md hover:bg-blue/10 border-solid">
+						<li key={list.id} className="h-full w-full flex flex-col border-2 items-center justify-center border-slate-300 text-white py-2 px-4 hover:font-semibold rounded-lg shadow-md hover:bg-nightblue border-solid">
 							{getIcon(list.data().type)}
 							{list.data().name}
 						</li>
@@ -68,7 +68,7 @@ export default function Collections() {
 							onClick={() => setCreateNew(true)}
 							className={`${loading
 								? 'text-transparent'
-								: 'border-dashed border-slate-300 text-white border-2 hover:font-semibold hover:bg-blue/10 hover:border-solid group shadow-md'} 
+								: 'border-dashed border-slate-300 text-white border-2 hover:font-semibold hover:bg-nightblue hover:border-solid group shadow-md'} 
 								h-full w-full flex flex-col items-center justify-between py-2 px-4 rounded-lg`}>
 							<PlusIcon className="group-hover:fill-blue h-36 w-36" aria-hidden="true" />
 							Create New Collection

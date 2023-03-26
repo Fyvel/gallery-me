@@ -4,20 +4,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Bars3Icon, MagnifyingGlassIcon, PowerIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { Fragment, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import Login from '@/components/login'
 
 const initialNavigation = [
 	{ name: 'Movies', href: '/movies', current: true, private: false },
 	{ name: 'Tv Shows', href: '/tv-shows', current: false, private: false },
 	{ name: 'Books', href: '/books', current: false, private: false },
 	{ name: 'My collections', href: '/collections', current: false, private: true },
-]
-
-const signInOptions = [
-	{ name: 'Google', provider: 'google' },
-	{ name: 'Facebook', provider: 'facebook' },
 ]
 
 function classNames(...classes: string[]) {
@@ -40,7 +36,7 @@ export default function Header() {
 	}, [pathname])
 
 	return (
-		<header className="bg-jet fixed w-full">
+		<header className="bg-jet fixed w-full z-[1000]">
 			<Disclosure as="nav" className="relative">
 				{({ open }) => (
 					<>
@@ -75,8 +71,8 @@ export default function Header() {
 														href={item.href}
 														className={classNames(
 															item.current
-																? 'bg-blue/10 italic'
-																: 'hover:font-semibold hover:scale-110 hover:bg-blue/10',
+																? 'bg-nightblue italic'
+																: 'hover:font-semibold hover:scale-110 hover:bg-nightblue',
 															'rounded-md px-3 py-2 text-sm font-medium transition-all duration-200'
 														)}
 														aria-current={item.current ? 'page' : undefined}
@@ -98,11 +94,11 @@ export default function Header() {
 											<button
 												className="relative ml-3 group"
 												type="button"
-												onClick={() => signOut()}>
+												onClick={() => signOut({ callbackUrl: window.location.origin })}>
 												<span className="sr-only">Logout</span>
 												<picture>
 													<img
-														className='h-6 w-6 object-cover rounded-full group-hover:opacity-20 group-hover:scale-125'
+														className="h-6 w-6 object-cover rounded-full group-hover:opacity-20 group-hover:scale-125"
 														src={session?.user?.image || `https://ui-avatars.com/api/?name=${session.user?.name || 'Lorem Ipsum'}`}
 														alt={session?.user?.name || 'Lorem Ipsum'} />
 												</picture>
@@ -126,21 +122,8 @@ export default function Header() {
 													leaveFrom="transform opacity-100 scale-100"
 													leaveTo="transform opacity-0 scale-95"
 												>
-													<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-jet shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-														<>
-															<div className="text-center py-2">Sign in</div>
-															{signInOptions.map((option) => (
-																<Menu.Item key={option.name}>
-																	<button
-																		onClick={() => signIn(option.provider)}
-																		role="button"
-																		className='flex w-full px-4 py-2 rounded-md text-sm hover:bg-blue/10'
-																	>
-																		{option.name}
-																	</button>
-																</Menu.Item>
-															))}
-														</>
+													<Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-gold text-black font-semibold shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+														<Login />
 													</Menu.Items>
 												</Transition>
 											</Menu>
@@ -157,8 +140,8 @@ export default function Header() {
 										href={item.href}
 										className={classNames(
 											item.current
-												? 'bg-blue/10 italic'
-												: 'hover:font-bold hover:bg-blue/10',
+												? 'bg-nightblue italic'
+												: 'hover:font-bold hover:bg-nightblue',
 											'block rounded-md px-3 py-2 text-base font-medium'
 										)}
 										aria-current={item.current ? 'page' : undefined}

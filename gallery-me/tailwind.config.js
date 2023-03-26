@@ -15,6 +15,7 @@ module.exports = {
 			...colors,
 			current: 'currentColor',
 			'blue': '#2BA5F7',
+			'nightblue': '#142129',
 			'gold': '#E09B2D',
 			'orange': '#F95428',
 			'jet': '#0a1c21',
