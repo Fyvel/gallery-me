@@ -23,4 +23,5 @@ type MovieVideo = {
 	site: string;
 	type: string;
 	published_at: string;
+	official: boolean;
 }

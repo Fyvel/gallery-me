@@ -72,7 +72,9 @@ export default function MovieDetails({ params: { slug: id } }: MovieDetailsProps
 									<hr className="w-1 h-12 mx-2 bg-slate-300 border-0 rounded" />
 									<div className="flex flex-row gap-2 items-center">
 										<VideoPlayer
-											video={movieVideos.filter(mv => mv.name?.toLowerCase().search('trailer'))[0]}
+											video={movieVideos
+												?.filter(mv => mv.type === 'Trailer' && mv.official)
+												?.sort((a, b) => new Date(a.published_at).getTime() - new Date(b.published_at).getTime())[0]}
 											text="Play Trailer" />
 									</div>
 								</>
