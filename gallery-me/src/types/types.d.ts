@@ -8,6 +8,7 @@ type Movie = {
 	vote_count: number;
 	tagline: string;
 	genres: MovieGenre[];
+	runtime: number;
 }
 
 type MovieGenre = {

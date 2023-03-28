@@ -8,8 +8,8 @@ export default function VideoPlayer({ video, text }: VideoPlayerProps) {
 	return (
 		<>
 			{video && (
-				<div className="flex flex-row gap-2 justify-center items-center">
-					<PlayIcon className="h-8 w-8" />
+				<div className="flex flex-row gap-2 justify-center items-center hover:cursor-pointer">
+					<PlayIcon className="h-8 w-8 hover:fill-gold" />
 					<p className="text-md opacity-80">{text}</p>
 				</div>
 			)}

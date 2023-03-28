@@ -35,7 +35,7 @@ export default function CollectionForm(props: CollectionFormProps) {
 	return (
 		<Modal {...props} title="New Collection">
 			<form onSubmit={handleSubmit}>
-				<div className="relative px-10 p-6 flex-auto bg-gray-800 text-white">
+				<div className="relative px-10 p-6 flex-auto bg-zinc-800 text-white">
 					<label className="block text-sm md:text-md mb-1" htmlFor="type" aria-required>Type*</label>
 					<select className="max-w-sm shadow appearance-none border rounded w-full py-2 px-1 mb-4"
 						name="type" defaultValue="" required>

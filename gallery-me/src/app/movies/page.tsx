@@ -2,9 +2,9 @@
 
 import useOnScreen from '@/hooks/use-on-screen'
 import { commonParams } from '@/lib/tmdb'
-import { Dialog } from '@headlessui/react'
+import { Dialog, Transition } from '@headlessui/react'
 import { EyeIcon, FolderPlusIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import useSWRInfinite from 'swr/infinite'
 import MovieDetailsPage from './[slug]/page'
 
@@ -91,18 +91,30 @@ export default function Movies() {
 					<li ref={ref} />
 				</ul>
 			</div>
-			<Dialog
-				className="relative z-50"
-				open={isOpen}
-				onClose={handleModalClose}>
-				<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl">
-					<XMarkIcon
-						onClick={handleModalClose}
-						className="absolute cursor-pointer h-12 w-h-12 z-10 top-2 right-4 sm:right-8 lg:right-10 hover:fill-orange"
-					/>
-					<MovieDetailsPage params={{ slug: `${selectedMovieId}` }} />
-				</div>
-			</Dialog >
+			<Transition show={isOpen} as={Fragment}>
+				<Dialog
+					className="relative z-50"
+					open={isOpen}
+					onClose={handleModalClose}>
+					<Transition.Child
+						as={Fragment}
+						enter="ease-out duration-300"
+						enterFrom="opacity-0"
+						enterTo="opacity-200"
+						leave="ease-in duration-200"
+						leaveFrom="opacity-200"
+						leaveTo="opacity-0"
+					>
+						<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl">
+							<XMarkIcon
+								onClick={handleModalClose}
+								className="absolute cursor-pointer h-12 w-h-12 z-10 top-2 right-4 sm:right-8 lg:right-10 fill-orange"
+							/>
+							<MovieDetailsPage params={{ slug: `${selectedMovieId}` }} />
+						</div>
+					</Transition.Child>
+				</Dialog >
+			</Transition>
 		</>
 	)
 }

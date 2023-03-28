@@ -35,7 +35,7 @@ body {
 
 @layer components {
 	.cta {
-		@apply bg-blue text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:scale-110 transition-all duration-200 ease-in-out;
+		@apply bg-blue text-zinc-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:scale-110 transition-all duration-200 ease-in-out;
 	}
 	.icon-cta {
 		@apply fill-blue hover:cursor-pointer rounded-lg shadow-md hover:scale-125 transition-all duration-200 ease-in-out;

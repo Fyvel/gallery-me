@@ -28,7 +28,13 @@ declare global {
 	interface Navigator {
 		standalone?: boolean
 	}
+
 	interface String {
 		toKebabCase(): string;
+		toNumber(): number;
+	}
+
+	interface Number {
+		toDuration(): string;
 	}
 }
