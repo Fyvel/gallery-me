@@ -4,7 +4,7 @@ const language = 'en-AU'
 
 export const commonParams = `api_key=${tmdbApiKey}&language=${language}`
 
-export const getMovie = async (id: string) => {
+export const getMovie = async (id: number) => {
 	const response = await fetch(`${tmdbUrl}/movie/${id}?${commonParams}`,
 		{ headers: { 'Content-Type': 'application/json' } }
 	)
@@ -12,8 +12,24 @@ export const getMovie = async (id: string) => {
 	return data
 }
 
-export const getMovieVideos = async (id: string) => {
+export const getMovieVideos = async (id: number) => {
 	const response = await fetch(`${tmdbUrl}/movie/${id}/videos?${commonParams}`,
+		{ headers: { 'Content-Type': 'application/json' } }
+	)
+	const data = await response.json()
+	return data
+}
+
+export const getMovieCredits = async (id: number) => {
+	const response = await fetch(`${tmdbUrl}/movie/${id}/credits?${commonParams}`,
+		{ headers: { 'Content-Type': 'application/json' } }
+	)
+	const data = await response.json()
+	return data
+}
+
+export const getMovieRecommendations = async (id: number) => {
+	const response = await fetch(`${tmdbUrl}/movie/${id}/recommendations?${commonParams}`,
 		{ headers: { 'Content-Type': 'application/json' } }
 	)
 	const data = await response.json()

@@ -7,7 +7,7 @@ import { DbCollections, db } from '@/config/firebase'
 import { BookOpenIcon, FilmIcon, PlusIcon, RectangleStackIcon, TvIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import CollectionForm from '@/components/collection-form'
+import CollectionForm from '@/app/collections/components/collection-form'
 
 export const metadata = {
 	title: 'Collections',

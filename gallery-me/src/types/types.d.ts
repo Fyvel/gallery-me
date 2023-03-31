@@ -1,3 +1,15 @@
+type ApiError = {
+	code: number;
+	message: string;
+}
+
+type Movies ={
+	page: number;
+	results: Movie[];
+	total_pages: number;
+	total_results: number;
+}
+
 type Movie = {
 	id: number;
 	title: string;
@@ -16,6 +28,11 @@ type MovieGenre = {
 	name: string;
 }
 
+type MovieVideos = {
+	id: number;
+	results: MovieVideo[];
+}
+
 type MovieVideo = {
 	id: string;
 	key: string;
@@ -24,4 +41,33 @@ type MovieVideo = {
 	type: string;
 	published_at: string;
 	official: boolean;
+}
+
+type MovieCredits = {
+	id: number;
+	cast: MovieCast[];
+	crew: MovieCrew[];
+}
+
+type MovieCast = {
+	id: number;
+	name: string;
+	character: string;
+	profile_path: string;
+	known_for_department: string;
+}
+
+type MovieCrew = {
+	id: number;
+	name: string;
+	job: string;
+	profile_path: string;
+	known_for_department: string;
+}
+
+type MovieRecommendations = {
+	id: number;
+	results: Movie[];
+	total_pages: number;
+	total_results: number;
 }

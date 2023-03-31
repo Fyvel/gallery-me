@@ -1,18 +1,16 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import Modal from './modal'
+import Modal from '@/components/modal'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { DbCollections, db } from '@/config/firebase'
 import { FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
 
 type CollectionFormProps = {
 	onClose: () => void,
 }
 export default function CollectionForm(props: CollectionFormProps) {
 	const { data: session } = useSession()
-	const router = useRouter()
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -29,7 +27,6 @@ export default function CollectionForm(props: CollectionFormProps) {
 			type: type.value,
 		})
 		props.onClose && props.onClose()
-		router.push(`/${type.value}`)
 	}
 
 	return (
@@ -47,7 +44,7 @@ export default function CollectionForm(props: CollectionFormProps) {
 					<label className="block text-sm md:text-md mb-1" htmlFor="name" aria-required>Name*</label>
 					<input className="max-w-sm shadow appearance-none border rounded w-full py-2 px-1 mb-4" name="name" maxLength={20} required />
 				</div>
-				<div className="bg-jet flex items-center justify-end px-10 p-6 border-t border-solid border-gray-300 rounded-b">
+				<div className="bg-jet flex items-center justify-end px-10 p-6 border-t border-solid border-gray-300 rounded-b-lg">
 					<button className="cta" type="submit">
 						Submit
 					</button>
