@@ -1,5 +1,6 @@
 'use client'
 
+import CollectionSelector from '@/components/collection-selector'
 import useOnScreen from '@/hooks/use-on-screen'
 import { commonParams } from '@/lib/tmdb'
 import { Dialog, Transition } from '@headlessui/react'
@@ -21,6 +22,7 @@ export const metadata = {
 export default function Movies() {
 	const [isOpen, setIsOpen] = useState(false)
 	const [selectedMovieId, setSelectedMovieId] = useState<number>()
+	const [showCollectionSelector, setShowCollectionSelector] = useState(false)
 	const { data, size, setSize, isLoading, } = useSWRInfinite<Movies>(getKey, fetchPopularMovies)
 	const movies = data?.[0]?.results
 	const isLoadingMore = isLoading || (size > 0 && movies && typeof movies[size - 1] === 'undefined')
@@ -46,8 +48,9 @@ export default function Movies() {
 		setSize(prev => prev + 1)
 	}, [isLoading, isLoadingMore, isReachingEnd, isVisible, setSize])
 
-	const addToGallery = (movieId: number) => {
-		console.log('Add to gallery', movieId)
+	const handleAddToGallery = (movieId: number) => {
+		setSelectedMovieId(movieId)
+		setShowCollectionSelector(true)
 	}
 
 	return (
@@ -83,7 +86,7 @@ export default function Movies() {
 								<p className="text-xl font-semibold text-ellipsis">{movie.title}</p>
 								<p className="text-sm">{movie.release_date}</p>
 							</div>
-							<FolderPlusIcon onClick={() => addToGallery(movie.id)} className="h-10 w-10 ml-3 icon-cta" />
+							<FolderPlusIcon onClick={() => handleAddToGallery(movie.id)} className="h-10 w-10 ml-3 icon-cta" />
 						</div>
 					</li>
 				))}
@@ -113,6 +116,11 @@ export default function Movies() {
 					</Transition.Child>
 				</Dialog >
 			</Transition>
+
+			{showCollectionSelector && selectedMovieId &&
+				<CollectionSelector id={selectedMovieId} type="movies" onClose={() => setShowCollectionSelector(false)} />
+			}
+
 		</div>
 	)
 }

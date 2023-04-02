@@ -4,9 +4,10 @@ import { getServerSession } from 'next-auth/next'
 import GlobalMetaTags from '@/components/global-meta-tags'
 import Pwa from '@/components/pwa'
 import Header from '@/components/header'
+import Footer from '@/components/footer'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import SessionProvider from '@/contexts/session-provider'
-import Footer from '@/components/footer'
+import ClientProvider from '@/contexts/client-provider'
 
 const galleryMeFont = Sono({
 	subsets: ['latin'],
@@ -27,7 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/library.svg" />				
+				<link rel="icon" href="/library.svg" />
 				<GlobalMetaTags />
 			</head>
 			<body className={`${galleryMeFont.variable} font-sans flex flex-col min-h-screen`}>
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<SessionProvider session={session}>
 					<Header />
 					<main className="bg-nightblue flex-1 mt-16">
+						<ClientProvider />
 						{children}
 					</main>
 					<Footer />

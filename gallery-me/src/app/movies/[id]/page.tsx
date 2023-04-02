@@ -10,6 +10,7 @@ import VideoPlayer from '@/components/video-player'
 import Credits from '@/app/movies/components/credits'
 import Videos from '@/app/movies/components/videos'
 import Recommendations from '@/app/movies/components/recommendations'
+import CollectionSelector from '@/components/collection-selector'
 
 const fetchMovieDetails = (url: string) => fetch(url).then(res => res.json())
 const fetchMovieVideos = (url: string) => fetch(url).then(res => res.json())
@@ -26,6 +27,11 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 	const [loadCredits, setLoadCredits] = useState(false)
 	const [loadVideos, setLoadVideos] = useState(false)
 	const [loadRecommendations, setLoadRecommendations] = useState(false)
+	const [showCollectionSelector, setShowCollectionSelector] = useState(false)
+
+	const handleAddToGallery = () => {
+		setShowCollectionSelector(true)
+	}
 
 	if (!movie)
 		return (
@@ -91,7 +97,7 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 						<p className="text-xl opacity-80 italic mb-6">{movie.tagline}</p>
 						<div className="flex flex-row justify-evenly gap-6 mb-6 text-center text-xs sm:text-sm">
 							<div className="flex flex-col gap-2 items-center">
-								<FolderPlusIcon className="icon-cta h-10 w-10" />
+								<FolderPlusIcon className="icon-cta h-10 w-10" onClick={() => handleAddToGallery()} />
 								Add to collection
 							</div>
 							<div className="flex flex-col gap-2 items-center">
@@ -192,6 +198,9 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 					</Disclosure>
 				</div>
 			</div>
+			{showCollectionSelector &&
+				<CollectionSelector id={id} type="movies" onClose={() => setShowCollectionSelector(false)} />
+			}
 		</div>
 	)
 }

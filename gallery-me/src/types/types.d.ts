@@ -3,7 +3,7 @@ type ApiError = {
 	message: string;
 }
 
-type Movies ={
+type Movies = {
 	page: number;
 	results: Movie[];
 	total_pages: number;
@@ -11,7 +11,7 @@ type Movies ={
 }
 
 type Movie = {
-	id: number;
+	id: number | string;
 	title: string;
 	poster_path: string;
 	overview: string;
@@ -21,6 +21,7 @@ type Movie = {
 	tagline: string;
 	genres: MovieGenre[];
 	runtime: number;
+	backdrop_path: string;
 }
 
 type MovieGenre = {
@@ -71,3 +72,20 @@ type MovieRecommendations = {
 	total_pages: number;
 	total_results: number;
 }
+
+type CollectionType = 'movies' | 'tv-shows' | 'books'
+
+type Collection = {
+	id: string;
+	userId: string;
+	name: string;
+	type: CollectionType;
+	createdAt: string | Timestamp;
+	updatedAt?: string;
+	isPublic: boolean;
+	items?: CollectionItem[];
+}
+
+type CollectionItem = {
+	createdAt: FieldValue;
+} & Movie

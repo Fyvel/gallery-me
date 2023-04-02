@@ -1,3 +1,5 @@
+'use client'
+
 import { Transition, Dialog } from '@headlessui/react'
 import { PlayIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { useState, Fragment } from 'react'

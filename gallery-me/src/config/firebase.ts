@@ -24,9 +24,12 @@ const analytics = isSupported().then(yes => yes
 
 const db = getFirestore(app)
 
+// enableIndexedDbPersistence(db)
+
 enum DbCollections {
 	Users = 'users',
 	Galleries = 'galleries',
+	Items = 'items',
 }
 
 export { db, DbCollections }

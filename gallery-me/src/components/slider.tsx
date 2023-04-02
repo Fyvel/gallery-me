@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useRef, RefObject, ReactNode, useState, Fragment } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import useDeviceDetect from '@/hooks/use-device-detect'
