@@ -16,6 +16,9 @@ module.exports = {
 			fontFamily: {
 				sans: ['var(--font-sono)', ...fontFamily.sans],
 			},
+			gridTemplateColumns: {
+				'posters': 'repeat(auto-fill, 260px)',
+			}
 		},
 		colors: {
 			...colors,

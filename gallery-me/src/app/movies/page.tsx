@@ -11,28 +11,23 @@ import MovieDetailsPage from './[id]/page'
 
 const fetchPopularMovies = (url: string) => fetch(url).then(res => res.json())
 
-const getKey = (index: number, previousPageData: Movie[]) => (previousPageData && !previousPageData?.length)
-	? null
-	: `/api/movies/popular?page=${index + 1}`
-
 export const metadata = {
 	title: 'Movies',
 }
 
 export default function Movies() {
 	const [isOpen, setIsOpen] = useState(false)
-	const [selectedMovieId, setSelectedMovieId] = useState<number>()
+	const [selectedMovieId, setSelectedMovieId] = useState<number | string>()
 	const [showCollectionSelector, setShowCollectionSelector] = useState(false)
-	const { data, size, setSize, isLoading, } = useSWRInfinite<Movies>(getKey, fetchPopularMovies)
-	const movies = data?.[0]?.results
-	const isLoadingMore = isLoading || (size > 0 && movies && typeof movies[size - 1] === 'undefined')
-	const isEmpty = data?.[0]?.results.length === 0
-	const isReachingEnd = isEmpty || (movies && movies.length < 20)
+	const { data, setSize, isLoading, } = useSWRInfinite<Movies>((index, prev) => (prev && prev.length)
+		? null
+		: `/api/movies/popular?page=${+index + 1}`, fetchPopularMovies)
+	const [movies, setMovies] = useState<Movie[]>([])
 
 	const ref = useRef<HTMLLIElement>(null)
 	const isVisible = useOnScreen(ref)
 
-	const handleMovieClick = (movieId: number) => {
+	const handleMovieClick = (movieId: number | string) => {
 		setSelectedMovieId(movieId)
 		setIsOpen(true)
 		window.history.pushState({}, '', `/movies/${encodeURIComponent(movieId)}`)
@@ -44,19 +39,24 @@ export default function Movies() {
 	}
 
 	useEffect(() => {
-		if (!isVisible || isReachingEnd || isLoadingMore || isLoading) return
+		if (!isVisible || isLoading) return
 		setSize(prev => prev + 1)
-	}, [isLoading, isLoadingMore, isReachingEnd, isVisible, setSize])
+	}, [isLoading, isVisible, setSize])
 
-	const handleAddToGallery = (movieId: number) => {
+	useEffect(() => {
+		if (!data?.length) return
+		setMovies(data.map(x => x?.results).flat().filter((v, i, a) => a.findIndex(t => (t.id === v.id)) === i))
+	}, [data])
+
+	const handleAddToGallery = (movieId: number | string) => {
 		setSelectedMovieId(movieId)
 		setShowCollectionSelector(true)
 	}
 
 	return (
-		<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative">
+		<div className="mx-auto max-w-7xl px-2 pt-4 sm:px-6 lg:px-8 h-full relative">
 			{isLoading && (<p className="text-center mt-6">Loading...</p>)}
-			<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-155px)]">
+			<ul className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-155px)]">
 				{movies?.map((movie, idx) => (
 					<li key={movie.id} className="h-full w-full flex flex-col border-2 items-center justify-between border-slate-300 text-gold rounded-lg shadow-md border-solid gap-4 sm:snap-start">
 						<div
@@ -74,7 +74,7 @@ export default function Movies() {
 								<img
 									src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}?${commonParams}`}
 									alt={movie.title}
-									className="h-full sm:h-96 w-full object-cover rounded-t-md"
+									className="h-full sm:h-96 w-full object-cover rounded-t-md max-w-[256px]"
 									loading={!idx ? 'eager' : 'lazy'} />
 							</picture>
 							<div className="hidden absolute group-hover:grid w-full h-full top-0 group-hover:cursor-pointer">

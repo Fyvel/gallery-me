@@ -1,7 +1,6 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { serverTimestamp } from 'firebase/firestore'
 import Modal from '@/components/modal'
 import { Switch } from '@headlessui/react'
 import { useEffect, useState } from 'react'
@@ -60,7 +59,7 @@ export default function CollectionSelector({ id, type, onClose }: CollectionSele
 			if (toggle) {
 				const itemData: CollectionItem = {
 					id: `${item.id}`,
-					createdAt: serverTimestamp(),
+					createdAt: '',
 					title: item.title,
 					poster_path: item.poster_path,
 					overview: item.overview,

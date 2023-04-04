@@ -130,7 +130,7 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 							leaveFrom="transform scale-100 opacity-100"
 							leaveTo="transform scale-95 opacity-0">
 							<Disclosure.Panel>
-								<Credits movieId={movie.id} />
+								<Credits movieId={+movie.id} />
 							</Disclosure.Panel>
 						</Transition>
 						{loadCredits && (
@@ -158,7 +158,7 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 							leaveFrom="transform scale-100 opacity-100"
 							leaveTo="transform scale-95 opacity-0">
 							<Disclosure.Panel>
-								<Videos movieId={movie.id} />
+								<Videos movieId={+movie.id} />
 							</Disclosure.Panel>
 						</Transition>
 						{loadVideos && (
@@ -186,7 +186,7 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 							leaveFrom="transform scale-100 opacity-100"
 							leaveTo="transform scale-95 opacity-0">
 							<Disclosure.Panel>
-								<Recommendations movieId={movie.id} />
+								<Recommendations movieId={+movie.id} />
 							</Disclosure.Panel>
 						</Transition>
 						{loadRecommendations && (

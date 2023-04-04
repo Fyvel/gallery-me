@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 	
 	switch (method) {
 		case 'GET':
-			const item = await adminDb.collection('users')
+			const item = await adminDb.collection(DbCollections.Users)
 				.doc(email)
 				.collection(DbCollections.Galleries)
 				.doc(galleryId as string)
@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 			break
 
 		case 'DELETE':
-			await adminDb.collection('users')
+			await adminDb.collection(DbCollections.Users)
 				.doc(email)
 				.collection(DbCollections.Galleries)
 				.doc(galleryId as string)
@@ -43,10 +43,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		case 'POST':
 			const { itemData } = req.body
 			const newItem: CollectionItem = {
-				createdAt: admin.firestore.Timestamp.now(),
 				...itemData as Movie,
+				createdAt: admin.firestore.Timestamp.now(),
 			}
-			await adminDb.collection('users')
+			await adminDb.collection(DbCollections.Users)
 				.doc(email)
 				.collection(DbCollections.Galleries)
 				.doc(galleryId as string)

@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 				res.status(400).json({ response: 'Invalid request' })
 				return
 			}
-			const galleries = await adminDb.collection('users')
+			const galleries = await adminDb.collection(DbCollections.Users)
 				.doc(email)
 				.collection(DbCollections.Galleries)
 				.where('type', '==', galleryType)
@@ -55,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 				type,
 				isPublic,
 			}
-			await adminDb.collection('users')
+			await adminDb.collection(DbCollections.Users)
 				.doc(session?.user?.email)
 				.collection(DbCollections.Galleries)
 				.add(collection)
