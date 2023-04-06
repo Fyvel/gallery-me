@@ -1,13 +1,13 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import { collection, orderBy, query } from 'firebase/firestore'
-import { useCollection } from 'react-firebase-hooks/firestore'
-import { DbCollections, db } from '@/config/firebase'
-import { BookOpenIcon, FilmIcon, PlusIcon, RectangleStackIcon, TvIcon } from '@heroicons/react/24/solid'
+import { ArrowLongRightIcon, BookOpenIcon, FilmIcon, NoSymbolIcon, RectangleStackIcon, TvIcon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import CollectionForm from '@/app/collections/components/collection-form'
+import { useEffect } from 'react'
+import { db, DbCollections } from '@/config/firebase'
+import { query, collection, orderBy } from 'firebase/firestore'
+import { useCollection } from 'react-firebase-hooks/firestore'
+import Link from 'next/link'
 
 export const metadata = {
 	title: 'Collections',
@@ -16,7 +16,6 @@ export const metadata = {
 export default function Collections() {
 	const { data: session } = useSession()
 	const router = useRouter()
-	const [createNew, setCreateNew] = useState(false)
 
 	const [lists, loading] = useCollection(
 		session?.user && query(
@@ -33,13 +32,13 @@ export default function Collections() {
 	const getIcon = (type: string) => {
 		switch (type) {
 			case 'movies':
-				return <FilmIcon className="group-hover:fill-blue h-36 w-36" aria-hidden="true" />
+				return <FilmIcon className="h-36 w-36" aria-hidden="true" />
 			case 'tv-shows':
-				return <TvIcon className="group-hover:fill-blue h-36 w-36" aria-hidden="true" />
+				return <TvIcon className="h-36 w-36" aria-hidden="true" />
 			case 'books':
-				return <BookOpenIcon className="group-hover:fill-blue h-36 w-36" aria-hidden="true" />
+				return <BookOpenIcon className="h-36 w-36" aria-hidden="true" />
 			default:
-				return <RectangleStackIcon className="group-hover:fill-blue h-36 w-36" aria-hidden="true" />
+				return <RectangleStackIcon className="h-36 w-36" aria-hidden="true" />
 		}
 	}
 
@@ -57,28 +56,31 @@ export default function Collections() {
 							Loading...
 						</li>
 					)}
-					{lists?.docs.map(list => (
-						<li key={list.id} className="h-full w-full flex flex-col border-2 items-center justify-center border-slate-300 text-white py-2 px-4 hover:font-semibold rounded-lg shadow-md hover:bg-nightblue border-solid">
-							{getIcon(list.data().type)}
-							{list.data().name}
+					{!loading && lists?.docs.length === 0 && (
+						<li className="h-full w-full flex flex-col border-2 items-center justify-between border-slate-300 py-2 px-4 rounded-lg shadow-md border-solid gap-4">
+							<NoSymbolIcon className="h-36 w-36 fill-gold" />
+							<h2 className="text-center">Your gallery is empty.</h2>
+							<Link href="/movies" className="flex items-center text-blue">Start a new collection <ArrowLongRightIcon className="h-6 w-6 ml-2" /></Link>
 						</li>
-					))}
-					<li>
-						<button
-							onClick={() => setCreateNew(true)}
-							className={`${loading
-								? 'text-transparent'
-								: 'border-dashed border-slate-300 text-white border-2 hover:font-semibold hover:bg-nightblue hover:border-solid group shadow-md'} 
-								h-full w-full flex flex-col items-center justify-between py-2 px-4 rounded-lg`}>
-							<PlusIcon className="group-hover:fill-blue h-36 w-36" aria-hidden="true" />
-							Create New Collection
-						</button>
-					</li>
+					)}
+					{lists?.docs
+						.map(doc => ({ id: doc.id, ...doc.data() } as Collection))
+						.sort((a, b) => {
+							if (a.type === b.type)
+								return b.createdAt - a.createdAt
+							return a.type.localeCompare(b.type)
+						})
+						.map((list) => (
+							<li
+								key={list.id}
+								onClick={() => router.push(`/collections/${list.id}`)}
+								className="group h-full w-full flex flex-col border-2 items-center justify-center border-slate-300 text-white py-2 px-4 hover:font-semibold rounded-lg shadow-md hover:bg-nightblue border-solid hover:cursor-pointer hover:border-blue">
+								{getIcon(list.type)}
+								<h2 className="group-hover:text-blue">{list.name}</h2>
+							</li>
+						))}
 				</ul>
 			</div>
-			{createNew && (
-				<CollectionForm onClose={() => setCreateNew(false)} />
-			)}
 		</>
 	)
 }
