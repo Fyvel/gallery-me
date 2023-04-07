@@ -26,3 +26,11 @@ Git commit icons
 ✅ [MERGED] - when merging a feature
 
 ===================================
+
+
+Contributing:
+- Fork the repository
+- Create a new branch
+- Commit your changes
+- Push to the branch
+- Create a new Pull Request

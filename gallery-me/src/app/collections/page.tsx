@@ -9,10 +9,6 @@ import { query, collection, orderBy } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import Link from 'next/link'
 
-export const metadata = {
-	title: 'Collections',
-}
-
 export default function Collections() {
 	const { data: session } = useSession()
 	const router = useRouter()

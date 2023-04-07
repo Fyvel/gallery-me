@@ -5,10 +5,6 @@ import { query, collection, orderBy } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import { useCollection } from 'react-firebase-hooks/firestore'
 
-export const metadata = {
-	title: 'TODO',
-}
-
 type CollectionProps = {
 	params: {
 		id: string;

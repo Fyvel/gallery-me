@@ -11,10 +11,6 @@ import MovieDetailsPage from './[id]/page'
 
 const fetchPopularMovies = (url: string) => fetch(url).then(res => res.json())
 
-export const metadata = {
-	title: 'Movies',
-}
-
 export default function Movies() {
 	const [isOpen, setIsOpen] = useState(false)
 	const [selectedMovieId, setSelectedMovieId] = useState<number | string>()
