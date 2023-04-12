@@ -14,21 +14,21 @@ export default function Recommendations({ movieId }: RecommendationsType) {
 
 	if (!movieRecommendations)
 		return (
-			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-				<p className="text-center mt-6">Loading...</p>
+			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+				<p className="mt-6 text-center">Loading...</p>
 			</div>
 		)
 
 	if (!movieRecommendations.results.length)
 		return (
-			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-				<p className="text-center mt-6">Nothing available at this point</p>
+			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+				<p className="mt-6 text-center">Nothing available at this point</p>
 			</div>
 		)
 
 
 	return (
-		<Slider items={movieRecommendations.results} className="grid gap-4 grid-flow-col grid-rows-1 overflow-x-auto mt-2">
+		<Slider items={movieRecommendations.results} className="grid grid-flow-col grid-rows-1 gap-4 mt-2 overflow-x-auto">
 			{movie => (<RecommendationCard key={movie.id} movie={movie} />)}
 		</Slider>
 	)
@@ -53,7 +53,7 @@ function RecommendationCard({ movie }: { movie: Movie }) {
 							<img
 								src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
 								alt={movie.title}
-								className="h-full sm:h-96 w-full object-cover rounded-t-md"
+								className="object-cover w-full h-full sm:h-96 rounded-t-md"
 								loading="lazy" />
 						</picture>
 					)
@@ -61,8 +61,8 @@ function RecommendationCard({ movie }: { movie: Movie }) {
 					<div className="relative h-[384px]">
 						<Image src="/no-image-poster.svg" alt={movie.title} fill style={{ objectFit: 'scale-down' }} />
 					</div>}
-				<div className="flex flex-col p-2 flex-grow">
-					<p className="text-xl font-bold flex-grow">{movie.title}</p>
+				<div className="flex flex-col flex-grow p-2">
+					<p className="flex-grow text-xl font-bold">{movie.title}</p>
 					<p className="">{movie.release_date || 'TBD'}</p>
 				</div>
 			</div>

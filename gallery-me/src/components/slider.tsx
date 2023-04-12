@@ -28,7 +28,7 @@ export default function Slider<T extends { id: string | number }>({ items, class
 	}
 
 	return (
-		<div className="flex flex-row w-full items-center">
+		<div className="flex flex-row items-center w-full">
 			{!isMobile && items.length > 1 && (
 				<button onClick={() => handleScroll(ref, 'left')} disabled={!['left', 'both'].includes(scrollButtons)}>
 					<ChevronLeftIcon className={`h-10 w-10 ${!['left', 'both'].includes(scrollButtons) && 'opacity-20'}`} />

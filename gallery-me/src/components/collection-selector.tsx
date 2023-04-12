@@ -120,7 +120,7 @@ export default function CollectionSelector({ id, type, onClose }: CollectionSele
 					)}
 					<ul className="flex flex-col gap-3">
 						{lists?.map(list => (
-							<li key={list.id} className="w-full flex justify-between">
+							<li key={list.id} className="flex justify-between w-full">
 								<Switch.Group>
 									<div className="flex flex-row-reverse gap-4">
 										<Switch.Label className="cursor-pointer">{list.name}</Switch.Label>
@@ -136,15 +136,15 @@ export default function CollectionSelector({ id, type, onClose }: CollectionSele
 									</div>
 								</Switch.Group>
 								{list.isPublic
-									? <GlobeAsiaAustraliaIcon className="h-6 w-6 text-gray-400" />
-									: <LockClosedIcon className="h-6 w-6 text-gray-400 opacity-50" />}
+									? <GlobeAsiaAustraliaIcon className="w-6 h-6 text-gray-400" />
+									: <LockClosedIcon className="w-6 h-6 text-gray-400 opacity-50" />}
 							</li>
 						))}
 					</ul>
 				</div>
-				<div className="bg-jet flex items-center justify-start px-10 p-6 border-t border-solid rounded-b-lg">
-					<button className="flex gap-4 hover:text-blue transition-all duration-200" type="button" onClick={() => setCreateNew(true)}>
-						<PlusIcon className="h-6 w-6" />
+				<div className="flex items-center justify-start p-6 px-10 border-t border-solid rounded-b-lg bg-jet">
+					<button className="flex gap-4 transition-all duration-200 hover:text-blue" type="button" onClick={() => setCreateNew(true)}>
+						<PlusIcon className="w-6 h-6" />
 						Create a new collection
 					</button>
 				</div>

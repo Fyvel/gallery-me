@@ -12,26 +12,26 @@ export default function Credits({ movieId }: CreditsProps) {
 
 	if (!movieCredits)
 		return (
-			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-				<p className="text-center mt-6">Loading...</p>
+			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+				<p className="mt-6 text-center">Loading...</p>
 			</div>
 		)
 
 	if (!movieCredits.cast?.length && !movieCredits.crew?.length)
 		return (
-			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-				<p className="text-center mt-6">Nothing available at this point</p>
+			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+				<p className="mt-6 text-center">Nothing available at this point</p>
 			</div>
 		)
 
 	return (
 		<>
-			{!!movieCredits.cast?.length && <h2 className="text-xl opacity-80 mt-6">Cast</h2>}
-			<Slider items={movieCredits.cast} className="grid gap-4 grid-flow-col grid-rows-1 overflow-x-auto mt-2">
+			{!!movieCredits.cast?.length && <h2 className="mt-6 text-xl opacity-80">Cast</h2>}
+			<Slider items={movieCredits.cast} className="grid grid-flow-col grid-rows-1 gap-4 mt-2 overflow-x-auto">
 				{cast => (<CastCard key={cast.id} cast={cast} />)}
 			</Slider>
-			{!!movieCredits.crew?.length && <h2 className="text-xl opacity-80 mt-6">Crew</h2>}
-			<Slider items={movieCredits.crew} className="grid gap-4 grid-flow-col grid-rows-1 overflow-x-auto mt-2">
+			{!!movieCredits.crew?.length && <h2 className="mt-6 text-xl opacity-80">Crew</h2>}
+			<Slider items={movieCredits.crew} className="grid grid-flow-col grid-rows-1 gap-4 mt-2 overflow-x-auto">
 				{crew => (<CrewCard key={crew.id} crew={crew} />)}
 			</Slider>
 		</>
@@ -54,12 +54,12 @@ function CastCard({ cast }: { cast: MovieCast }) {
 							<img
 								src={`https://image.tmdb.org/t/p/w400${cast.profile_path}`}
 								alt={cast.name}
-								className="h-full w-full object-cover rounded-t-md"
+								className="object-cover w-full h-full rounded-t-md"
 								loading="lazy" />
 						</picture>
 					)
 					: <Image className="rounded-t-md h-[294px]" src="/no-image-person.svg" alt={cast.name} width={200} height={300} />}
-				<div className="flex flex-col p-2 flex-grow">
+				<div className="flex flex-col flex-grow p-2">
 					<p className="text-xl font-bold">{cast.name}</p>
 					<p className="flex-grow">{cast.character}</p>
 					<p className="text-sm opacity-50">{cast.known_for_department}</p>
@@ -87,13 +87,13 @@ function CrewCard({ crew }: { crew: MovieCrew }) {
 							<img
 								src={`https://image.tmdb.org/t/p/w400${crew.profile_path}`}
 								alt={crew.name}
-								className="h-full w-full object-cover rounded-t-md"
+								className="object-cover w-full h-full rounded-t-md"
 								loading="lazy" />
 						</picture>
 					)
 					: <Image className="rounded-t-md h-[294px]" src="/no-image-person.svg" alt={crew.name} width={200} height={300} />
 				}
-				<div className="flex flex-col p-2 flex-grow">
+				<div className="flex flex-col flex-grow p-2">
 					<p className="text-xl font-bold">{crew.name}</p>
 					<p className="flex-grow">{crew.job}</p>
 					<p className="text-sm opacity-50">{crew.known_for_department}</p>

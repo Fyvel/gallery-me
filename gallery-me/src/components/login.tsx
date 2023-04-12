@@ -14,7 +14,7 @@ type LoginProps = {
 export default function Login({ redirectUrl }: LoginProps) {
 	return (
 		<>
-			<div className="text-center py-2">Sign in</div>
+			<div className="py-2 text-center">Sign in</div>
 			{signInOptions.map((option) => (
 				<Menu.Item key={option.name}>
 					<button
@@ -24,7 +24,7 @@ export default function Login({ redirectUrl }: LoginProps) {
 								: undefined
 						})}
 						role="button"
-						className="flex w-full px-4 py-2 rounded-md text-sm hover:bg-nightblue hover:text-white"
+						className="flex w-full px-4 py-2 text-sm rounded-md hover:bg-nightblue hover:text-white"
 					>
 						{option.name}
 					</button>

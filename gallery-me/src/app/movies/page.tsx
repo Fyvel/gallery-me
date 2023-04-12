@@ -50,14 +50,14 @@ export default function Movies() {
 	}
 
 	return (
-		<div className="mx-auto max-w-7xl px-2 pt-4 sm:px-6 lg:px-8 h-full relative">
-			{isLoading && (<p className="text-center mt-6">Loading...</p>)}
+		<div className="relative h-full px-2 pt-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+			{isLoading && (<p className="mt-6 text-center">Loading...</p>)}
 			<ul className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-155px)]">
 				{movies?.map((movie, idx) => (
-					<li key={movie.id} className="h-full w-full flex flex-col border-2 items-center justify-between border-slate-300 text-gold rounded-lg shadow-md border-solid gap-4 sm:snap-start">
+					<li key={movie.id} className="flex flex-col items-center justify-between w-full h-full gap-4 border-2 border-solid rounded-lg shadow-md border-slate-300 text-gold sm:snap-start">
 						<div
 							onClick={() => handleMovieClick(movie.id)}
-							className="group relative w-full transition-all duration-200">
+							className="relative w-full transition-all duration-200 group">
 							<picture className="w-full group-hover:opacity-50">
 								<source
 									srcSet={`https://image.tmdb.org/t/p/w500/${movie.poster_path}?${commonParams}`}
@@ -73,16 +73,16 @@ export default function Movies() {
 									className="h-full sm:h-96 w-full object-cover rounded-t-md max-w-[256px]"
 									loading={!idx ? 'eager' : 'lazy'} />
 							</picture>
-							<div className="hidden absolute group-hover:grid w-full h-full top-0 group-hover:cursor-pointer">
-								<EyeIcon className="w-20 h-20 place-self-center group-hover:fill-blue transition-all duration-200" />
+							<div className="absolute top-0 hidden w-full h-full group-hover:grid group-hover:cursor-pointer">
+								<EyeIcon className="w-20 h-20 transition-all duration-200 place-self-center group-hover:fill-blue" />
 							</div>
 						</div>
-						<div className="flex h-full w-full items-start gap-2 py-2 px-4">
-							<div className="flex flex-col h-full w-full items-start justify-between gap-2">
+						<div className="flex items-start w-full h-full gap-2 px-4 py-2">
+							<div className="flex flex-col items-start justify-between w-full h-full gap-2">
 								<p className="text-xl font-semibold text-ellipsis">{movie.title}</p>
 								<p className="text-sm">{movie.release_date}</p>
 							</div>
-							<FolderPlusIcon onClick={() => handleAddToGallery(movie.id)} className="h-10 w-10 ml-3 icon-cta" />
+							<FolderPlusIcon onClick={() => handleAddToGallery(movie.id)} className="w-10 h-10 ml-3 icon-cta" />
 						</div>
 					</li>
 				))}
@@ -105,7 +105,7 @@ export default function Movies() {
 						<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl h-full sm:h-[calc(100%-152px)]">
 							<XMarkIcon
 								onClick={handleModalClose}
-								className="absolute cursor-pointer h-12 w-h-12 z-10 top-2 right-4 sm:right-8 lg:right-10 fill-orange"
+								className="absolute z-10 h-12 cursor-pointer w-h-12 top-2 right-4 sm:right-8 lg:right-10 fill-orange"
 							/>
 							<MovieDetailsPage params={{ id: `${selectedMovieId}` }} />
 						</div>

@@ -40,28 +40,28 @@ export default function Header() {
 			<Disclosure as="nav" className="relative">
 				{({ open }) => (
 					<>
-						<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-							<div className="relative flex h-16 items-center justify-between">
+						<div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+							<div className="relative flex items-center justify-between h-16">
 								<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 									{/* Mobile menu button */}
-									<Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-jet/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+									<Disclosure.Button className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:bg-jet/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
 										<span className="sr-only">Open main menu</span>
 										{open ? (
-											<XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+											<XMarkIcon className="block w-6 h-6" aria-hidden="true" />
 										) : (
-											<Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+											<Bars3Icon className="block w-6 h-6" aria-hidden="true" />
 										)}
 									</Disclosure.Button>
 								</div>
-								<div className="flex flex-1 items-center justify-center sm:justify-start">
-									<div className="flex flex-shrink-0 items-center">
+								<div className="flex items-center justify-center flex-1 sm:justify-start">
+									<div className="flex items-center flex-shrink-0">
 										<Link href="/">
 											<span className="sr-only">Gallery Me</span>
-											<Image className="block lg:hidden hover:rotate-45 transition-all duration-200" src="/library.svg" alt="" width={40} height={40} priority />
-											<Image className="hidden lg:block hover:rotate-45 transition-all duration-200" src="/library.svg" alt="" width={50} height={50} priority />
+											<Image className="block transition-all duration-200 lg:hidden hover:rotate-45" src="/library.svg" alt="" width={40} height={40} priority />
+											<Image className="hidden transition-all duration-200 lg:block hover:rotate-45" src="/library.svg" alt="" width={50} height={50} priority />
 										</Link>
 									</div>
-									<div className="hidden sm:ml-6 sm:block w-full">
+									<div className="hidden w-full sm:ml-6 sm:block">
 										<div className="flex justify-center gap-4 lg:gap-6">
 											{navigation
 												.filter(item => !item.private || (item.private && session))
@@ -84,9 +84,9 @@ export default function Header() {
 									</div>
 								</div>
 								<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-									<button type="button" className="rounded-full hover:scale-125 transition-all duration-200">
+									<button type="button" className="transition-all duration-200 rounded-full hover:scale-125">
 										<span className="sr-only">Open main menu</span>
-										<MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+										<MagnifyingGlassIcon className="w-6 h-6" aria-hidden="true" />
 									</button>
 									{/* Profile dropdown */}
 									{session
@@ -98,19 +98,19 @@ export default function Header() {
 												<span className="sr-only">Logout</span>
 												<picture>
 													<img
-														className="h-6 w-6 object-cover rounded-full group-hover:opacity-20 group-hover:scale-125"
+														className="object-cover w-6 h-6 rounded-full group-hover:opacity-20 group-hover:scale-125"
 														src={session?.user?.image || `https://ui-avatars.com/api/?name=${session.user?.name || 'Lorem Ipsum'}`}
 														alt={session?.user?.name || 'Lorem Ipsum'} />
 												</picture>
-												<PowerIcon className="h-6 w-6 absolute top-0 hidden group-hover:block fill-orange" />
+												<PowerIcon className="absolute top-0 hidden w-6 h-6 group-hover:block fill-orange" />
 											</button>
 										)
 										: (
 											<Menu as="div" className="relative ml-3">
 												<div>
-													<Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue/50 hover:scale-125 transition-all duration-200">
+													<Menu.Button className="flex text-sm transition-all duration-200 bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-blue/50 hover:scale-125">
 														<span className="sr-only">Login</span>
-														<UserCircleIcon className="rotate-180 h-6 w-6 hover:rotate-0 group-hover:scale-125 transition-all duration-200" />
+														<UserCircleIcon className="w-6 h-6 transition-all duration-200 rotate-180 hover:rotate-0 group-hover:scale-125" />
 													</Menu.Button>
 												</div>
 												<Transition
@@ -122,7 +122,7 @@ export default function Header() {
 													leaveFrom="transform opacity-100 scale-100"
 													leaveTo="transform opacity-0 scale-95"
 												>
-													<Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-gold text-black font-semibold shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+													<Menu.Items className="absolute right-0 w-48 mt-2 font-semibold text-black origin-top-right rounded-md shadow-lg bg-gold ring-1 ring-black ring-opacity-5 focus:outline-none">
 														<Login />
 													</Menu.Items>
 												</Transition>
@@ -131,8 +131,8 @@ export default function Header() {
 								</div>
 							</div>
 						</div>
-						<Disclosure.Panel className="sm:hidden absolute z-50 bg-jet w-full">
-							<div className="space-y-1 px-2 pt-2 pb-3">
+						<Disclosure.Panel className="absolute z-50 w-full sm:hidden bg-jet">
+							<div className="px-2 pt-2 pb-3 space-y-1">
 								{navigation.map((item) => (
 									<Disclosure.Button
 										key={item.name}
