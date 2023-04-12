@@ -45,25 +45,45 @@ export const getPopularMovies = async (page = 1) => {
 	return data
 }
 
-export const createList = async (name: string, description: string, accessToken: string) => {
-	const response = await fetch(`${tmdbUrl}/4/list?${commonParams}`,
-		{
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
-			body: JSON.stringify({ name, description, iso_639_1: 'en' }),
-		}
+export const getTopRatedMovies = async (page = 1) => {
+	const response = await fetch(`${tmdbUrl}/3/movie/top_rated?${commonParams}&page=${page}`,
+		{ headers: { 'Content-Type': 'application/json' } }
 	)
 	const data = await response.json()
 	return data
 }
 
-export const addMovieToList = async (listId: number, movieId: number) => {
-	const response = await fetch(`${tmdbUrl}/4/list/${listId}/items?${commonParams}`,
-		{
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ items: [{ media_id: movieId, media_type: 'movie' }] }),
-		}
+export const getUpcomingMovies = async (page = 1) => {
+	const response = await fetch(`${tmdbUrl}/3/movie/upcoming?${commonParams}&page=${page}`,
+		{ headers: { 'Content-Type': 'application/json' } }
+	)
+	const data = await response.json()
+	return data
+}
+
+export const getNowPlayingMovies = async (page = 1) => {
+	const response = await fetch(`${tmdbUrl}/3/movie/now_playing?${commonParams}&page=${page}`,
+		{ headers: { 'Content-Type': 'application/json' } }
+	)
+	const data = await response.json()
+	return data
+}
+
+export const getMovieGenres = async () => {
+	const response = await fetch(`${tmdbUrl}/3/genre/movie/list?${commonParams}`,
+		{ headers: { 'Content-Type': 'application/json' } }
+	)
+	const data = await response.json()
+	return data
+}
+
+export const searchMovies = async (params: Record<string, string>, page = 1) => {
+	params['api_key'] = tmdbApiKey!
+	params['language'] = language
+	params['page'] = `${page}`
+	const searchParams = new URLSearchParams(params)
+	const response = await fetch(`${tmdbUrl}/3/discover/movie?${encodeURIComponent(searchParams.toString())}`,
+		{ headers: { 'Content-Type': 'application/json' } }
 	)
 	const data = await response.json()
 	return data

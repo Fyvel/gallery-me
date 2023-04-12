@@ -1,3 +1,4 @@
+import ErrorBoundary from '@/components/error-boundary'
 import { getMovie } from '@/lib/tmdb'
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
@@ -9,6 +10,6 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<>{children}</>
+		<ErrorBoundary>{children}</ErrorBoundary>
 	)
 }

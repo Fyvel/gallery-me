@@ -50,7 +50,7 @@ export default function Collection({ params: { id } }: CollectionProps) {
 	return (
 		<div className="relative h-full px-2 pt-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
 			{loading && (<p className="mt-6 text-center">Loading...</p>)}
-			<ul className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-155px)]">
+			<ul className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-69px)]">
 				{items?.docs
 					?.map(doc => ({ id: doc.id, ...doc.data() } as CollectionItem))
 					?.map((item, idx) => (
@@ -100,7 +100,7 @@ export default function Collection({ params: { id } }: CollectionProps) {
 						leaveFrom="opacity-200"
 						leaveTo="opacity-0"
 					>
-						<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl h-full sm:h-[calc(100%-152px)]">
+						<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl sm:h-[calc(100%-64px)]">
 							<XMarkIcon
 								onClick={handleModalClose}
 								className="absolute z-10 h-12 cursor-pointer w-h-12 top-4 right-4 sm:right-8 lg:right-10 fill-orange"
