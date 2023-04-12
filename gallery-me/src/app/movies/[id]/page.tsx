@@ -35,13 +35,13 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 
 	if (!movie)
 		return (
-			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+			<div className="relative h-full px-2 pt-4 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
 				<p className="mt-6 text-center">Loading...</p>
 			</div>
 		)
 
 	return (
-		<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+		<div className="relative h-full px-2 pt-4 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
 			<div className="flex flex-col gap-4 md:grid md:grid-flow-row-dense md:grid-cols-3">
 				<div className="col-span-1 border-2 rounded-lg border-slate-300">
 					<picture className="group-hover:opacity-50">

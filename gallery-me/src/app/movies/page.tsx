@@ -54,7 +54,7 @@ export default function Movies() {
 			{isLoading && (<p className="mt-6 text-center">Loading...</p>)}
 			<ul className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-155px)]">
 				{movies?.map((movie, idx) => (
-					<li key={movie.id} className="flex flex-col items-center justify-between w-full h-full gap-4 border-2 border-solid rounded-lg shadow-md border-slate-300 text-gold sm:snap-start">
+					<li key={movie.id} className="flex flex-col items-center justify-between w-full h-full max-h-[588px] gap-4 border-2 border-solid rounded-lg shadow-md border-slate-300 text-gold sm:snap-start">
 						<div
 							onClick={() => handleMovieClick(movie.id)}
 							className="relative w-full transition-all duration-200 group">
@@ -105,7 +105,7 @@ export default function Movies() {
 						<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl h-full sm:h-[calc(100%-152px)]">
 							<XMarkIcon
 								onClick={handleModalClose}
-								className="absolute z-10 h-12 cursor-pointer w-h-12 top-2 right-4 sm:right-8 lg:right-10 fill-orange"
+								className="absolute z-10 h-12 cursor-pointer w-h-12 top-4 right-4 sm:right-8 lg:right-10 fill-orange"
 							/>
 							<MovieDetailsPage params={{ id: `${selectedMovieId}` }} />
 						</div>

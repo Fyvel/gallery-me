@@ -59,6 +59,7 @@ export default function CollectionSelector({ id, type, onClose }: CollectionSele
 			if (toggle) {
 				const itemData: CollectionItem = {
 					id: `${item.id}`,
+					type,
 					createdAt: '',
 					title: item.title,
 					poster_path: item.poster_path,
