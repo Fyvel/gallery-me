@@ -3,6 +3,7 @@ TODO:
 	- Sort by (Latest, Popular, Top Rated, Upcoming, In Theatres)
 	- Search by (genres, year, rating, country, cast, crew, keywords)
 
+[ ] Add settings & options for a collection (make it public / rename / delete)
 
 TBD: 
 [ ] Cron job to update collections' items

@@ -88,4 +88,5 @@ type Collection = {
 
 type CollectionItem = {
 	createdAt: FieldValue;
+	type: CollectionType;
 } & Movie
