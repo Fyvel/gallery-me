@@ -50,21 +50,21 @@ export default function CollectionForm({ onClose, defaultValues }: CollectionFor
 	return (
 		<Modal onClose={onClose} title="New Collection">
 			<form onSubmit={handleSubmit} autoComplete="off">
-				<div className="relative px-10 p-6 flex-auto bg-zinc-800 text-white select-none">
-					<label className="block text-sm md:text-md mb-1" htmlFor="type" aria-required>Type*</label>
-					<select className="max-w-sm shadow appearance-none border rounded w-full py-2 px-1 mb-4"
+				<div className="relative flex-auto p-6 px-10 text-white select-none bg-zinc-800">
+					<label className="block mb-1 text-sm md:text-md" htmlFor="type" aria-required>Type*</label>
+					<select className="w-full max-w-sm px-1 py-2 mb-4 border rounded shadow appearance-none"
 						name="type" defaultValue={defaultValues?.type || ''} required>
 						<option value="" disabled>- Type of collection -</option>
 						<option value="movies">Movies</option>
 						<option value="tv-shows">Tv Shows</option>
 						<option value="books">Books</option>
 					</select>
-					<label className="block text-sm md:text-md mb-1" htmlFor="name" aria-required>Name*</label>
-					<input className="max-w-sm shadow appearance-none border rounded w-full py-2 px-1 mb-4" name="name" defaultValue={defaultValues?.name || ''} maxLength={20} required />
-					<label className="block text-sm md:text-md cursor-pointer" htmlFor="isPublic">Public</label>
-					<input className="h-6 w-6 cursor-pointer" id="isPublic" name="isPublic" type="checkbox" defaultChecked={defaultValues?.isPublic !== undefined ? defaultValues.isPublic : true} />
+					<label className="block mb-1 text-sm md:text-md" htmlFor="name" aria-required>Name*</label>
+					<input className="w-full max-w-sm px-1 py-2 mb-4 border rounded shadow appearance-none" name="name" defaultValue={defaultValues?.name || ''} maxLength={20} required />
+					<label className="block text-sm cursor-pointer md:text-md" htmlFor="isPublic">Public</label>
+					<input className="w-6 h-6 cursor-pointer" id="isPublic" name="isPublic" type="checkbox" defaultChecked={defaultValues?.isPublic !== undefined ? defaultValues.isPublic : true} />
 				</div>
-				<div className="bg-jet flex items-center justify-end px-10 p-6 border-t border-solid border-gray-300 rounded-b-lg">
+				<div className="flex items-center justify-end p-6 px-10 border-t border-gray-300 border-solid rounded-b-lg bg-jet">
 					<button className="cta" type="submit">Create</button>
 				</div>
 			</form>

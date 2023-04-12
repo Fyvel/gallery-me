@@ -10,13 +10,13 @@ export default function Modal({ children, onClose, title }: ModalProps) {
 	const handleClose = () => { onClose && onClose() }
 
 	return (
-		<div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-gray-500/70">
-			<div className="relative my-6 mx-auto w-full max-w-xl">
-				<div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full outline-none focus:outline-none">
-					<div className="px-10 flex items-center justify-between p-6 border-b border-solid border-gray-300 rounded-t-lg bg-jet text-white">
+		<div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none bg-gray-500/70">
+			<div className="relative w-full max-w-xl mx-auto my-6">
+				<div className="relative flex flex-col w-full border-0 rounded-lg shadow-lg outline-none focus:outline-none">
+					<div className="flex items-center justify-between p-6 px-10 text-white border-b border-gray-300 border-solid rounded-t-lg bg-jet">
 						<h3 className="text-3xl font=semibold">{title}</h3>
 						<button role="button" className="bg-transparent" onClick={() => handleClose()}>
-							<XMarkIcon className="h-8 w-8 hover:bg-gray-300 text-orange rounded-full" />
+							<XMarkIcon className="w-8 h-8 rounded-full hover:bg-gray-300 text-orange" />
 						</button>
 					</div>
 					{children}

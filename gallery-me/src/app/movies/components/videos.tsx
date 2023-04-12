@@ -10,20 +10,20 @@ export default function Videos({ movieId }: VideosProps) {
 	const { data: movieVideos } = useSWR<MovieVideo[]>(`/api/movies/${movieId}/videos`, { fallback: [] })
 	if (!movieVideos)
 		return (
-			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-				<p className="text-center mt-6">Loading...</p>
+			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+				<p className="mt-6 text-center">Loading...</p>
 			</div>
 		)
 
 	if (!movieVideos.length)
 		return (
-			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-				<p className="text-center mt-6">Nothing available at this point</p>
+			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+				<p className="mt-6 text-center">Nothing available at this point</p>
 			</div>
 		)
 
 	return (
-		<Slider items={movieVideos} className="grid gap-4 grid-flow-col grid-rows-1 overflow-x-auto mt-2">
+		<Slider items={movieVideos} className="grid grid-flow-col grid-rows-1 gap-4 mt-2 overflow-x-auto">
 			{video => (<VideoCard key={video.id} video={video} />)}
 		</Slider>
 	)
@@ -39,8 +39,8 @@ function VideoCard({ video }: { video: MovieVideo }) {
 					allowFullScreen
 					loading="lazy" />
 			)}
-			<div className="flex flex-col p-2 flex-grow">
-				<p className="text-xl font-bold flex-grow">{video.name}</p>
+			<div className="flex flex-col flex-grow p-2">
+				<p className="flex-grow text-xl font-bold">{video.name}</p>
 				<p className="">{video.type}</p>
 			</div>
 		</div>

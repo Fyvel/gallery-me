@@ -35,15 +35,15 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 
 	if (!movie)
 		return (
-			<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-				<p className="text-center mt-6">Loading...</p>
+			<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+				<p className="mt-6 text-center">Loading...</p>
 			</div>
 		)
 
 	return (
-		<div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full relative bg-nightblue overflow-y-auto">
-			<div className="gap-4 flex flex-col md:grid md:grid-flow-row-dense md:grid-cols-3">
-				<div className="rounded-lg border-slate-300 border-2 col-span-1">
+		<div className="relative h-full px-2 mx-auto overflow-y-auto max-w-7xl sm:px-6 lg:px-8 bg-nightblue">
+			<div className="flex flex-col gap-4 md:grid md:grid-flow-row-dense md:grid-cols-3">
+				<div className="col-span-1 border-2 rounded-lg border-slate-300">
 					<picture className="group-hover:opacity-50">
 						<source
 							srcSet={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -56,35 +56,35 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 						<img
 							src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
 							alt={movie.title}
-							className="h-full w-full object-cover rounded-md"
+							className="object-cover w-full h-full rounded-md"
 							loading="eager" />
 					</picture>
 				</div>
-				<div className="rounded-lg border-slate-300 border-2 col-span-2">
-					<div className="p-4 flex flex-col">
-						<h1 className="text-3xl font-bold mb-3">{movie.title} <span className='font-normal text-3xl opacity-50'>({movie.release_date
+				<div className="col-span-2 border-2 rounded-lg border-slate-300">
+					<div className="flex flex-col p-4">
+						<h1 className="mb-3 text-3xl font-bold">{movie.title} <span className='text-3xl font-normal opacity-50'>({movie.release_date
 							? new Date(movie.release_date)?.getFullYear()
 							: 'TBD'})</span></h1>
-						<div className="tracking-tight flex flex-col gap-2 mb-6 md:flex-row md:flex-wrap md:items-center md:gap-4">
+						<div className="flex flex-col gap-2 mb-6 tracking-tight md:flex-row md:flex-wrap md:items-center md:gap-4">
 							<p>{movie.release_date
 								? new Date(movie.release_date).toLocaleDateString('fr-FR')
 								: 'To Be Defined'}</p>
 							{!!movie.runtime && <>
-								<hr className="hidden md:block w-2 h-2 bg-slate-300 border-0 rounded" />
+								<hr className="hidden w-2 h-2 border-0 rounded md:block bg-slate-300" />
 								<p className="whitespace-nowrap"> {movie.runtime.toDuration()}</p>
 							</>}
-							<hr className="hidden md:block w-2 h-2 bg-slate-300 border-0 rounded" />
+							<hr className="hidden w-2 h-2 border-0 rounded md:block bg-slate-300" />
 							<p> {movie.genres?.map(genre => (genre.name)).join(', ')}</p>
 						</div>
 						<div className="flex flex-row justify-around mb-6">
-							<div className="flex flex-row gap-2 items-center">
+							<div className="flex flex-row items-center gap-2">
 								<p className="text-2xl font-bold">{(movie.vote_average * 10).toFixed(0)}%</p>
 								<p className="text-md opacity-80">User score</p>
 							</div>
 							{!!movieVideos?.length && (
 								<>
-									<hr className="w-1 h-12 mx-2 bg-slate-300 border-0 rounded" />
-									<div className="flex flex-row gap-2 items-center">
+									<hr className="w-1 h-12 mx-2 border-0 rounded bg-slate-300" />
+									<div className="flex flex-row items-center gap-2">
 										<VideoPlayer
 											video={movieVideos
 												?.filter(mv => mv.type === 'Trailer' && mv.official)
@@ -94,32 +94,32 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 								</>
 							)}
 						</div>
-						<p className="text-xl opacity-80 italic mb-6">{movie.tagline}</p>
-						<div className="flex flex-row justify-evenly gap-6 mb-6 text-center text-xs sm:text-sm">
-							<div className="flex flex-col gap-2 items-center">
-								<FolderPlusIcon className="icon-cta h-10 w-10" onClick={() => handleAddToGallery()} />
+						<p className="mb-6 text-xl italic opacity-80">{movie.tagline}</p>
+						<div className="flex flex-row gap-6 mb-6 text-xs text-center justify-evenly sm:text-sm">
+							<div className="flex flex-col items-center gap-2">
+								<FolderPlusIcon className="w-10 h-10 icon-cta" onClick={() => handleAddToGallery()} />
 								Add to collection
 							</div>
-							<div className="flex flex-col gap-2 items-center">
-								<HeartIcon className="icon-cta h-10 w-10" />
+							<div className="flex flex-col items-center gap-2">
+								<HeartIcon className="w-10 h-10 icon-cta" />
 								Mark as favorite
 							</div>
-							<div className="flex flex-col gap-2 items-center">
-								<BookmarkIcon className="icon-cta h-10 w-10" />
+							<div className="flex flex-col items-center gap-2">
+								<BookmarkIcon className="w-10 h-10 icon-cta" />
 								Add to watchlist
 							</div>
 						</div>
-						<h2 className="text-2xl font-bold mb-3">Overview</h2>
+						<h2 className="mb-3 text-2xl font-bold">Overview</h2>
 						<p className="text-md">{movie.overview}</p>
 					</div>
 				</div>
-				<div className="rounded-lg border-slate-300 border-2 col-span-3 p-4">
+				<div className="col-span-3 p-4 border-2 rounded-lg border-slate-300">
 					<h1 className="text-2xl font-bold">Credits</h1>
 					<Disclosure>
 						{!loadCredits && (
-							<Disclosure.Button className="w-full text-center flex flex-col items-center mt-4 cursor-pointer" onClick={() => setLoadCredits(true)}>
+							<Disclosure.Button className="flex flex-col items-center w-full mt-4 text-center cursor-pointer" onClick={() => setLoadCredits(true)}>
 								<p className="text-center">See cast and crew</p>
-								<ChevronDownIcon className="h-6 w-6 animate-pulse duration-100" />
+								<ChevronDownIcon className="w-6 h-6 duration-100 animate-pulse" />
 							</Disclosure.Button>
 						)}
 						<Transition
@@ -134,20 +134,20 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 							</Disclosure.Panel>
 						</Transition>
 						{loadCredits && (
-							<Disclosure.Button className="w-full text-center flex flex-col items-center mt-4 cursor-pointer" onClick={() => setLoadCredits(false)}>
-								<ChevronUpIcon className="h-6 w-6 animate-pulse duration-100" />
+							<Disclosure.Button className="flex flex-col items-center w-full mt-4 text-center cursor-pointer" onClick={() => setLoadCredits(false)}>
+								<ChevronUpIcon className="w-6 h-6 duration-100 animate-pulse" />
 								<p className="text-center">See less</p>
 							</Disclosure.Button>
 						)}
 					</Disclosure>
 				</div>
-				<div className="rounded-lg border-slate-300 border-2 col-span-3 p-4">
+				<div className="col-span-3 p-4 border-2 rounded-lg border-slate-300">
 					<h1 className="text-2xl font-bold">Related videos</h1>
 					<Disclosure>
 						{!loadVideos && (
-							<Disclosure.Button className="w-full text-center flex flex-col items-center mt-4 cursor-pointer" onClick={() => setLoadVideos(true)}>
+							<Disclosure.Button className="flex flex-col items-center w-full mt-4 text-center cursor-pointer" onClick={() => setLoadVideos(true)}>
 								<p className="text-center">See related videos</p>
-								<ChevronDownIcon className="h-6 w-6 animate-pulse duration-100" />
+								<ChevronDownIcon className="w-6 h-6 duration-100 animate-pulse" />
 							</Disclosure.Button>
 						)}
 						<Transition
@@ -162,20 +162,20 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 							</Disclosure.Panel>
 						</Transition>
 						{loadVideos && (
-							<Disclosure.Button className="w-full text-center flex flex-col items-center mt-4 cursor-pointer" onClick={() => setLoadVideos(false)}>
-								<ChevronUpIcon className="h-6 w-6 animate-pulse duration-100" />
+							<Disclosure.Button className="flex flex-col items-center w-full mt-4 text-center cursor-pointer" onClick={() => setLoadVideos(false)}>
+								<ChevronUpIcon className="w-6 h-6 duration-100 animate-pulse" />
 								<p className="text-center">See less</p>
 							</Disclosure.Button>
 						)}
 					</Disclosure>
 				</div>
-				<div className="rounded-lg border-slate-300 border-2 col-span-3 p-4">
+				<div className="col-span-3 p-4 border-2 rounded-lg border-slate-300">
 					<h1 className="text-2xl font-bold">Recommendations</h1>
 					<Disclosure>
 						{!loadRecommendations && (
-							<Disclosure.Button className="w-full text-center flex flex-col items-center mt-4 cursor-pointer" onClick={() => setLoadRecommendations(true)}>
+							<Disclosure.Button className="flex flex-col items-center w-full mt-4 text-center cursor-pointer" onClick={() => setLoadRecommendations(true)}>
 								<p className="text-center">You may also like</p>
-								<ChevronDownIcon className="h-6 w-6 animate-pulse duration-100" />
+								<ChevronDownIcon className="w-6 h-6 duration-100 animate-pulse" />
 							</Disclosure.Button>
 						)}
 						<Transition
@@ -190,8 +190,8 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 							</Disclosure.Panel>
 						</Transition>
 						{loadRecommendations && (
-							<Disclosure.Button className="w-full text-center flex flex-col items-center mt-4 cursor-pointer" onClick={() => setLoadRecommendations(false)}>
-								<ChevronUpIcon className="h-6 w-6 animate-pulse duration-100" />
+							<Disclosure.Button className="flex flex-col items-center w-full mt-4 text-center cursor-pointer" onClick={() => setLoadRecommendations(false)}>
+								<ChevronUpIcon className="w-6 h-6 duration-100 animate-pulse" />
 								<p className="text-center">See less</p>
 							</Disclosure.Button>
 						)}

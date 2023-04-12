@@ -24,8 +24,8 @@ export default function VideoPlayer({ video, text }: VideoPlayerProps) {
 	return (
 		<>
 			{video && (
-				<div className="flex flex-row gap-2 justify-center items-center hover:cursor-pointer" onClick={() => setIsOpen(true)}>
-					<PlayIcon className="h-8 w-8 hover:fill-gold" />
+				<div className="flex flex-row items-center justify-center gap-2 hover:cursor-pointer" onClick={() => setIsOpen(true)}>
+					<PlayIcon className="w-8 h-8 hover:fill-gold" />
 					<p className="text-md opacity-80">{text}</p>
 				</div>
 			)}
@@ -43,7 +43,7 @@ export default function VideoPlayer({ video, text }: VideoPlayerProps) {
 						leaveFrom="opacity-200"
 						leaveTo="opacity-0"
 					>
-						<div className="group fixed mt-16 inset-0 bg-nightblue/80 mx-auto max-w-7xl">
+						<div className="fixed inset-0 mx-auto mt-16 group bg-nightblue/80 max-w-7xl">
 							{video?.site === 'YouTube' && video?.key && (
 								<YouTube videoId={video.key} opts={youtubeOpts} />
 							)}
@@ -52,7 +52,7 @@ export default function VideoPlayer({ video, text }: VideoPlayerProps) {
 							)}
 							<XMarkIcon
 								onClick={() => setIsOpen(false)}
-								className="group-hover:flex hidden cursor-pointer h-12 w-12 z-10 mt-4 fill-orange mx-auto bg-slate-50 rounded-full"
+								className="z-10 hidden w-12 h-12 mx-auto mt-4 rounded-full cursor-pointer group-hover:flex fill-orange bg-slate-50"
 							/>
 						</div>
 					</Transition.Child>
