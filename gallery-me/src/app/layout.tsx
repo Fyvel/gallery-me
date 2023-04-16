@@ -8,6 +8,7 @@ import Footer from '@/components/footer'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import SessionProvider from '@/contexts/session-provider'
 import ClientProvider from '@/contexts/client-provider'
+import SearchContextProvider from '@/contexts/search-provider'
 
 const galleryMeFont = Sono({
 	subsets: ['latin'],
@@ -33,14 +34,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			</head>
 			<body className={`${galleryMeFont.variable} font-sans flex flex-col min-h-screen`}>
 				<Pwa />
-				<SessionProvider session={session}>
-					<Header />
-					<main className="flex-1 mt-16 bg-nightblue">
-						<ClientProvider />
-						{children}
-					</main>
-					<Footer />
-				</SessionProvider>
+				<SearchContextProvider>
+					<SessionProvider session={session}>
+						<Header />
+						<main className="flex-1 mt-16 bg-nightblue">
+							<ClientProvider />
+							{children}
+						</main>
+						<Footer />
+					</SessionProvider>
+				</SearchContextProvider>
 			</body>
 		</html>
 	)

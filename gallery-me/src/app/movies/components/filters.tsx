@@ -1,91 +1,101 @@
 'use client'
 
-import { useState } from 'react'
+import { MovieFiltersType, useSearch } from '@/contexts/search-provider'
+import { AdjustmentsHorizontalIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
+import { useRef } from 'react'
 import useSWR from 'swr'
-
-export type FiltersType = {
-	listType: 'now-playing' | 'popular' | 'top-rated' | 'upcoming' | '',
-	search: {
-		genres: number[],
-		year?: number,
-		certification?: string,
-		page?: number,
-		sortBy?: 'popularity.asc' |
-		'popularity.desc' |
-		'release_date.asc' |
-		'release_date.desc' |
-		'revenue.asc' |
-		'revenue.desc' |
-		'primary_release_date.asc' |
-		'primary_release_date.desc' |
-		'original_title.asc' |
-		'original_title.desc' |
-		'vote_average.asc' |
-		'vote_average.desc' |
-		'vote_count.asc' |
-		'vote_count.desc'
-	}
-}
 
 const fetchMoviesGenres = (url: string) => fetch(url).then(res => res.json())
 
 type MovieFilterProps = {
-	onChange: (args: FiltersType) => void;
-	initial: FiltersType,
+	onClose?: () => void,
+	initial: MovieFiltersType,
 }
-export default function MovieFilters({ onChange, initial }: MovieFilterProps) {
-	const [filters, setFilters] = useState<FiltersType>(initial)
+export default function MovieFilters({ onClose, initial }: MovieFilterProps) {
 	const { data: genres } = useSWR<MovieGenre[]>('/api/movies/genres', fetchMoviesGenres)
+	const { search, setSearch } = useSearch()
+	const currentSortBy = useRef(search?.filters?.sortBy || 'popularity.desc')
 
-	const handleChange = async (change: FiltersType) => {
-		setFilters(change)
-		onChange(change)
+	const handleChange = async (change: MovieFiltersType) => {
+		if (change.route === 'movies/popular')
+			currentSortBy.current = 'popularity.desc'
+		else if (change.route === 'movies/top-rated')
+			currentSortBy.current = 'vote_average.desc'
+		else if (change.route === 'movies/now-playing')
+			currentSortBy.current = 'release_date.desc'
+		else if (change.route === 'movies/upcoming')
+			currentSortBy.current = 'release_date.desc'
+		else if (change.route === 'movies/discover')
+			change.filters.sortBy = change.filters.sortBy || currentSortBy.current
+
+		setSearch(change)
 	}
+
 	return (
-		<div className="flex flex-col mb-4">
-			<div className="grid m-auto mb-4 sm:grid-cols-3 sm:gap-4">
+		<div className="flex flex-col mb-6">
+			<h1 className="flex flex-row justify-center w-full gap-4 my-4 text-lg">
+				<p>Filters</p>
+				<AdjustmentsHorizontalIcon className="w-6 h-6" />
+			</h1>
+			<div className="w-full h-px bg-gray-400" />
+			<div className="grid my-4">
 				<div className="flex flex-col gap-2">
 					<label>Category:</label>
 					<select className="w-full max-w-sm px-1 py-2 mb-4 border rounded shadow appearance-none"
-						value={filters.listType}
+						value={search?.route}
 						onChange={(e) => handleChange({
-							...filters,
-							listType: e.target.value as FiltersType['listType']
-						})}
-					>
-						<option value="popular">Popular</option>
-						<option value="now_playing">Now Playing</option>
-						<option value="top_rated">Top Rated</option>
-						<option value="upcoming">Upcoming</option>
+							route: e.target.value as MovieFiltersType['route'],
+							filters: {
+								...search?.filters,
+								genres: search?.filters?.genres || [],
+							},
+						})}>
+						{search?.route === 'movies/discover' && <option value="movies/discover" disabled>- Discover -</option>}
+						<option value="movies/popular">Popular</option>
+						<option value="movies/now_playing">Now Playing</option>
+						<option value="movies/top_rated">Top Rated</option>
+						<option value="movies/upcoming">Upcoming</option>
 					</select>
 				</div>
-				<div className="flex flex-col gap-2">
-					<label>Year:</label>
-					<select className="w-full max-w-sm px-1 py-2 mb-4 border rounded shadow appearance-none"
-						value={filters.search.year || new Date().getFullYear()}
-						onChange={(e) => handleChange({
-							...filters,
-							search: {
-								...filters.search,
-								year: +e.target.value,
-							}
-						})}
-					>
-						{[...new Array(125)]
-							.map((_, i) => new Date().getFullYear() - i)
-							.map(year => <option key={year} value={year}>{year}</option>)}
-					</select>
-
+				<div className="w-full h-px mt-2 mb-4 bg-gray-400" />
+				<div className="flex flex-col gap-2 mb-4">
+					<label>Genres:</label>
+					<div className="flex flex-wrap w-full gap-x-4 gap-y-2">
+						{genres?.map(genre => (
+							<span key={genre.id} className="flex items-center gap-2 p-2 border-2 border-solid rounded-lg">
+								<label className="block text-sm cursor-pointer md:text-md" htmlFor={`${genre.id}`}>{genre.name}</label>
+								<input
+									id={`${genre.id}`}
+									className="w-6 h-6 cursor-pointer"
+									name={genre.name}
+									type="checkbox"
+									checked={search?.filters.genres?.includes(genre.id) || false}
+									onChange={(e) =>
+										handleChange({
+											route: 'movies/discover',
+											filters: {
+												...search?.filters,
+												genres: (search?.filters.genres || []).indexOf(+e.target.id) >= 0
+													? (search?.filters.genres || []).filter(x => x !== +e.target.id)
+													: [...(search?.filters.genres || []), +e.target.id],
+											}
+										})
+									}
+								/>
+							</span>
+						))}
+					</div>
 				</div>
 				<div className="flex flex-col gap-2">
 					<label>Sort By:</label>
 					<select className="w-full max-w-sm px-1 py-2 mb-4 border rounded shadow appearance-none"
-						value={filters.search.sortBy}
+						value={search?.filters?.sortBy}
 						onChange={(e) => handleChange({
-							...filters,
-							search: {
-								...filters.search,
-								sortBy: e.target.value as FiltersType['search']['sortBy'],
+							route: 'movies/discover',
+							filters: {
+								...search?.filters,
+								sortBy: e.target.value as MovieFiltersType['filters']['sortBy'],
+								genres: search?.filters?.genres || [],
 							}
 						})}
 					>
@@ -99,35 +109,36 @@ export default function MovieFilters({ onChange, initial }: MovieFilterProps) {
 						<option value="vote_average.asc">Rating Ascending</option>
 					</select>
 				</div>
-			</div>
-			<div className="flex flex-col gap-2">
-				<div className="flex flex-wrap justify-center w-full gap-x-4 gap-y-2">
-					{genres?.map(genre => (
-						<span key={genre.id} className="flex items-center gap-2 p-2 border-2 border-solid rounded-lg">
-							<label className="block text-sm cursor-pointer md:text-md" htmlFor={`${genre.id}`}>{genre.name}</label>
-							<input
-								id={`${genre.id}`}
-								className="w-6 h-6 cursor-pointer"
-								name={genre.name}
-								type="checkbox"
-								checked={filters.search.genres.includes(genre.id)}
-								onChange={(e) =>
-									handleChange({
-										...filters,
-										search: {
-											...filters.search,
-											genres: filters.search.genres.indexOf(+e.target.id) >= 0
-												? filters.search.genres.filter(x => x !== +e.target.id)
-												: [...filters.search.genres, +e.target.id],
-										}
-									})
-								}
-							/>
-						</span>
-					))}
+				<div className="flex flex-col gap-2">
+					<label>Year:</label>
+					<select className="w-full max-w-sm px-1 py-2 mb-4 border rounded shadow appearance-none"
+						value={search?.filters?.year || new Date().getFullYear()}
+						onChange={(e) => handleChange({
+							route: 'movies/discover',
+							filters: {
+								...search?.filters,
+								year: +e.target.value,
+								genres: search?.filters?.genres || [],
+							}
+						})}>
+						{[...new Array(125)]
+							.map((_, i) => new Date().getFullYear() - i)
+							.map(year => <option key={year} value={year}>{year}</option>)}
+					</select>
 				</div>
+				<button className="my-4 text-left hover:font-semibold text-orange" role="button"
+					onClick={() => handleChange(initial)}>
+					Reset filters
+				</button>
 			</div>
-			<button className="py-4 hover:font-semibold text-orange" role="button" onClick={() => handleChange(initial)}>Reset filters</button>
+			{onClose && <>
+				<div className="w-full h-px bg-gray-400" />
+				<button className="flex flex-col items-center w-full my-4 text-center cursor-pointer text-gold" role="button"
+					onClick={onClose}>
+					<ChevronUpIcon className="w-6 h-6 duration-100 animate-pulse" />
+					<p className="text-center">Close Filters</p>
+				</button>
+			</>}
 		</div>
 	)
 }

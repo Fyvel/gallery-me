@@ -60,15 +60,15 @@ export default function Collection({ params: { id } }: CollectionProps) {
 								className="relative w-full transition-all duration-200 group">
 								<picture className="w-full group-hover:opacity-50">
 									<source
-										srcSet={`https://image.tmdb.org/t/p/w500/${item.poster_path}?${commonParams}`}
+										srcSet={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
 										media="(min-width: 768px)"
 									/>
 									<source
-										srcSet={`https://image.tmdb.org/t/p/w400/${item.poster_path}?${commonParams}`}
+										srcSet={`https://image.tmdb.org/t/p/w400/${item.poster_path}`}
 										media="(min-width: 640px)"
 									/>
 									<img
-										src={`https://image.tmdb.org/t/p/w300/${item.poster_path}?${commonParams}`}
+										src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
 										alt={item.title}
 										className="h-full sm:h-96 w-full object-cover rounded-t-md max-w-[256px]"
 										loading={!idx ? 'eager' : 'lazy'} />

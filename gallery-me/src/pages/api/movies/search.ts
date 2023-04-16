@@ -1,8 +1,10 @@
-import { getPopularMovies } from '@/lib/tmdb'
+import { searchMovies } from '@/lib/tmdb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Movies>) {
-	console.log('req.query popular:', req.query)
-	const movies = (await getPopularMovies(+(req.query?.page || 1)))
+	const movies = (await searchMovies({
+		query: req.query.terms as string,
+		page: (req.query.page || '1') as string
+	}))
 	res.status(200).json(movies)
 }

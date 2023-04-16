@@ -77,12 +77,24 @@ export const getMovieGenres = async () => {
 	return data
 }
 
-export const searchMovies = async (params: Record<string, string>, page = 1) => {
-	params['api_key'] = tmdbApiKey!
+export const discoverMovies = async (params: Record<string, string>) => {
 	params['language'] = language
-	params['page'] = `${page}`
+	params['page'] = `${params['page'] || 1}`
+
 	const searchParams = new URLSearchParams(params)
-	const response = await fetch(`${tmdbUrl}/3/discover/movie?${encodeURIComponent(searchParams.toString())}`,
+	const response = await fetch(`${tmdbUrl}/3/discover/movie?${searchParams}&${commonParams}`,
+		{ headers: { 'Content-Type': 'application/json' } }
+	)
+	const data = await response.json()
+	return data
+}
+
+export const searchMovies = async (params: Record<string, string>) => {
+	params['language'] = language
+	params['page'] = `${params['page'] || 1}`
+
+	const searchParams = new URLSearchParams(params)
+	const response = await fetch(`${tmdbUrl}/3/search/movie?${searchParams}&${commonParams}`,
 		{ headers: { 'Content-Type': 'application/json' } }
 	)
 	const data = await response.json()
