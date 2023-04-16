@@ -2,12 +2,16 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Bars3Icon, MagnifyingGlassIcon, PowerIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { Bars3Icon, PowerIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { signOut, useSession } from 'next-auth/react'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Login from '@/components/login'
+import SearchActions from '@/components/search-actions'
+import FilterSelector from '@/components/filter-selector'
+import SearchSelector from '@/components/search-selector'
+import useClickOutside from '@/hooks/use-click-outside'
 
 const initialNavigation = [
 	{ name: 'Movies', href: '/movies', current: true, private: false },
@@ -24,6 +28,15 @@ export default function Header() {
 	const { data: session } = useSession()
 	const pathname = usePathname()
 	const [navigation, setNavigation] = useState<typeof initialNavigation>(initialNavigation)
+	const [showFilters, setShowFilters] = useState(false)
+	const [showSearch, setShowSearch] = useState(false)
+
+	const headerRef = useRef<HTMLHeadElement>(null)
+	useClickOutside(headerRef, () => {
+		setShowFilters(false)
+		setShowSearch(false)
+	})
+
 
 	useEffect(() => {
 		if (!pathname) return
@@ -35,22 +48,39 @@ export default function Header() {
 		))
 	}, [pathname])
 
+	const handleFitler = () => {
+		console.log('filter')
+		setShowFilters(prev => !prev)
+		setShowSearch(false)
+	}
+
+	const handleSearch = () => {
+		console.log('search')
+		setShowSearch(prev => !prev)
+		setShowFilters(false)
+	}
+
+	const handleClose = (onClose?: () => void) => () => {
+		setShowFilters(false)
+		setShowSearch(false)
+		onClose?.()
+	}
+
 	return (
-		<header className="bg-jet fixed w-full z-[1000]">
+		<header ref={headerRef} className="bg-jet fixed w-full z-[1000]">
 			<Disclosure as="nav" className="relative">
-				{({ open }) => (
+				{({ open, close }) => (
 					<>
 						<div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
-							<div className="relative flex items-center justify-between h-16">
-								<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+							<div className="relative grid items-center justify-between h-16 grid-cols-3 sm:flex">
+								<div className="inset-y-0 left-0 flex items-center sm:hidden">
 									{/* Mobile menu button */}
-									<Disclosure.Button className="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:bg-jet/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+									<Disclosure.Button className="flex text-sm transition-all duration-200 bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-blue/50 hover:scale-125">
 										<span className="sr-only">Open main menu</span>
-										{open ? (
-											<XMarkIcon className="block w-6 h-6" aria-hidden="true" />
-										) : (
-											<Bars3Icon className="block w-6 h-6" aria-hidden="true" />
-										)}
+										{open
+											? <XMarkIcon className="block w-6 h-6 transition-all duration-200 rotate-180 hover:rotate-0 group-hover:scale-125" aria-hidden="true" />
+											: <Bars3Icon className="block w-6 h-6 transition-all duration-200 rotate-180 hover:rotate-0 group-hover:scale-125" aria-hidden="true" />
+										}
 									</Disclosure.Button>
 								</div>
 								<div className="flex items-center justify-center flex-1 sm:justify-start">
@@ -62,7 +92,7 @@ export default function Header() {
 										</Link>
 									</div>
 									<div className="hidden w-full sm:ml-6 sm:block">
-										<div className="flex justify-center gap-4 lg:gap-6">
+										<div className="flex justify-center gap-4 text-xs sm:text-sm md:text-md lg:gap-6">
 											{navigation
 												.filter(item => !item.private || (item.private && session))
 												.map((item) => (
@@ -73,7 +103,7 @@ export default function Header() {
 															item.current
 																? 'bg-nightblue italic'
 																: 'hover:font-semibold hover:scale-110 hover:bg-nightblue',
-															'rounded-md px-3 py-2 text-sm font-medium transition-all duration-200'
+															'rounded-md px-3 py-2 font-medium transition-all duration-200'
 														)}
 														aria-current={item.current ? 'page' : undefined}
 													>
@@ -83,16 +113,13 @@ export default function Header() {
 										</div>
 									</div>
 								</div>
-								<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-									<button type="button" className="transition-all duration-200 rounded-full hover:scale-125">
-										<span className="sr-only">Open main menu</span>
-										<MagnifyingGlassIcon className="w-6 h-6" aria-hidden="true" />
-									</button>
+								<div className="inset-y-0 right-0 flex items-center gap-2 pr-2 md:gap-6 justify-self-end sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+									<SearchActions onFilter={handleFitler} onSearch={handleSearch} />
 									{/* Profile dropdown */}
 									{session
 										? (
 											<button
-												className="relative ml-3 group"
+												className="relative group"
 												type="button"
 												onClick={() => signOut({ callbackUrl: window.location.origin })}>
 												<span className="sr-only">Logout</span>
@@ -106,11 +133,11 @@ export default function Header() {
 											</button>
 										)
 										: (
-											<Menu as="div" className="relative ml-3">
+											<Menu as="div" className="relative">
 												<div>
 													<Menu.Button className="flex text-sm transition-all duration-200 bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-blue/50 hover:scale-125">
 														<span className="sr-only">Login</span>
-														<UserCircleIcon className="w-6 h-6 transition-all duration-200 rotate-180 hover:rotate-0 group-hover:scale-125" />
+														<UserCircleIcon className="w-6 h-6 transition-all duration-200 rotate-180 hover:rotate-0 hover:scale-125" />
 													</Menu.Button>
 												</div>
 												<Transition
@@ -131,7 +158,7 @@ export default function Header() {
 								</div>
 							</div>
 						</div>
-						<Disclosure.Panel className="absolute z-50 w-full sm:hidden bg-jet">
+						<Disclosure.Panel className="z-50 w-full border-b-2 bg-jet sm:hidden">
 							<div className="px-2 pt-2 pb-3 space-y-1">
 								{navigation.map((item) => (
 									<Disclosure.Button
@@ -140,8 +167,8 @@ export default function Header() {
 										href={item.href}
 										className={classNames(
 											item.current
-												? 'bg-nightblue italic'
-												: 'hover:font-bold hover:bg-nightblue',
+												? 'bg-blue/50 italic'
+												: 'hover:font-bold hover:bg-blue/50',
 											'block rounded-md px-3 py-2 text-base font-medium'
 										)}
 										aria-current={item.current ? 'page' : undefined}
@@ -154,6 +181,22 @@ export default function Header() {
 					</>
 				)}
 			</Disclosure>
+			<>
+				{showFilters && (
+					<div className="z-50 px-2 pt-4 mx-auto border-b-2 bg-jet max-w-7xl sm:px-6 lg:px-8">
+						<FilterSelector
+							onChange={handleFitler}
+							onClose={handleClose(close)} />
+					</div>
+				)}
+				{showSearch && (
+					<div className="z-50 px-2 pt-4 mx-auto border-b-2 bg-jet max-w-7xl sm:px-6 lg:px-8">
+						<SearchSelector
+							onChange={handleSearch}
+							onClose={handleClose(close)} />
+					</div>
+				)}
+			</>
 		</header>
 	)
 }
