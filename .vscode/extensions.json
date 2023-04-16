@@ -1,7 +1,10 @@
 {
 	"recommendations": [
-		"moalamri.inline-fold",
 		"wix.vscode-import-cost",
-		"bradlc.vscode-tailwindcss"
+		"bradlc.vscode-tailwindcss",
+		"github.copilot",
+		"stivo.tailwind-fold",
+		"dbaeumer.vscode-eslint",
+		"heybourn.headwind"
 	]
 }
