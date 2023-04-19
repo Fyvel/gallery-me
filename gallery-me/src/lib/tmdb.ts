@@ -1,6 +1,5 @@
 const tmdbUrl = 'https://api.themoviedb.org'
 const tmdbApiKey = process.env.TMDB_API_KEY
-const tmdbAccessToken = process.env.TMDB_ACCESS_TOKEN
 const language = 'en-AU'
 
 export const commonParams = `api_key=${tmdbApiKey}&language=${language}`

@@ -31,6 +31,7 @@ export default function Movies() {
 	}
 
 	useEffect(() => {
+		document.body.scrollTo({ top: 0, behavior: 'smooth' })
 		listingRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 	}, [search])
 

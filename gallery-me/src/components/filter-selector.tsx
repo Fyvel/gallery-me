@@ -1,15 +1,11 @@
 import MovieFilters from '@/app/movies/components/filters'
 
 type FilterSelectorProps = {
-	onChange: () => void;
+	pathname: string | null;
 	onClose: () => void;
 }
-export default function FilterSelector({ onChange, onClose }: FilterSelectorProps) {
-	// check if current page is Movies
-	// if so, render the movie filter selector
-	// if not, render the tv show filter selector
-
-	switch (window.location.pathname) {
+export default function FilterSelector({ onClose, pathname }: FilterSelectorProps) {
+	switch (pathname) {
 		case '/movies':
 			return (
 				<MovieFilters
@@ -21,9 +17,7 @@ export default function FilterSelector({ onChange, onClose }: FilterSelectorProp
 			)
 		default:
 			return (
-				<>
-					<button role="button" onClick={onClose}>No filters available here</button>
-				</>
+				<button role="button" onClick={onClose}>No filters available here</button>
 			)
 	}
 }

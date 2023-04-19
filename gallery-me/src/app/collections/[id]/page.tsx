@@ -1,7 +1,6 @@
 'use client'
 
 import { DbCollections, db } from '@/config/firebase'
-import { commonParams } from '@/lib/tmdb'
 import { query, collection, orderBy } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
 import { Fragment, useEffect, useState } from 'react'
