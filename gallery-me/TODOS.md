@@ -1,7 +1,8 @@
 TODO:
-[ ] Add filters on listing page
+[X] Add filters on listing page
 	- Sort by (Latest, Popular, Top Rated, Upcoming, In Theatres)
 	- Search by (genres, year, rating, country, cast, crew, keywords)
+	- Hide filters when not on listing pages
 
 [ ] Add settings & options for a collection (make it public / rename / delete)
 

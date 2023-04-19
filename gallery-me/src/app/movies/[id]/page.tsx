@@ -1,4 +1,5 @@
 'use client'
+
 import '@/utils/StringExtensions'
 import '@/utils/NumberExtensions'
 

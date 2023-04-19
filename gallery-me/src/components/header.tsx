@@ -49,13 +49,11 @@ export default function Header() {
 	}, [pathname])
 
 	const handleFitler = () => {
-		console.log('filter')
 		setShowFilters(prev => !prev)
 		setShowSearch(false)
 	}
 
 	const handleSearch = () => {
-		console.log('search')
 		setShowSearch(prev => !prev)
 		setShowFilters(false)
 	}
@@ -69,7 +67,7 @@ export default function Header() {
 	return (
 		<header ref={headerRef} className="bg-jet fixed w-full z-[1000]">
 			<Disclosure as="nav" className="relative">
-				{({ open, close }) => (
+				{({ open }) => (
 					<>
 						<div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
 							<div className="relative grid items-center justify-between h-16 grid-cols-3 sm:flex">
@@ -114,7 +112,9 @@ export default function Header() {
 									</div>
 								</div>
 								<div className="inset-y-0 right-0 flex items-center gap-2 pr-2 md:gap-6 justify-self-end sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-									<SearchActions onFilter={handleFitler} onSearch={handleSearch} />
+									<div className="flex justify-end gap-2 md:gap-6 text-blue">
+										<SearchActions pathname={pathname} onFilter={handleFitler} onSearch={handleSearch} />
+									</div>
 									{/* Profile dropdown */}
 									{session
 										? (
@@ -185,14 +185,14 @@ export default function Header() {
 				{showFilters && (
 					<div className="z-50 px-2 pt-4 mx-auto border-b-2 bg-jet max-w-7xl sm:px-6 lg:px-8">
 						<FilterSelector
-							onChange={handleFitler}
+							pathname={pathname}
 							onClose={handleClose(close)} />
 					</div>
 				)}
 				{showSearch && (
 					<div className="z-50 px-2 pt-4 mx-auto border-b-2 bg-jet max-w-7xl sm:px-6 lg:px-8">
 						<SearchSelector
-							onChange={handleSearch}
+							pathname={pathname}
 							onClose={handleClose(close)} />
 					</div>
 				)}

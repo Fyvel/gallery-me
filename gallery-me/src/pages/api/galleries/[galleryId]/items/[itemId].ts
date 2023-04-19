@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		case 'POST':
 			const { itemData } = req.body
 			const newItem: CollectionItem = {
-				...itemData as Movie,
+				...itemData as CollectionItem,
 				createdAt: admin.firestore.Timestamp.now(),
 			}
 			await adminDb.collection(DbCollections.Users)

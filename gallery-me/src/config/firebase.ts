@@ -18,7 +18,7 @@ const app = getApps()?.length
 	? getApp()
 	: initializeApp(firebaseConfig)
 
-const analytics = isSupported().then(yes => yes
+isSupported().then(yes => yes
 	? getAnalytics(app)
 	: null)
 

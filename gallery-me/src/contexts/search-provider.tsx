@@ -35,10 +35,9 @@ export default function SearchContextProvider({ children }: SearchContextProvide
 		const query = new URLSearchParams()
 		query.append('page', `${pageIndex || 1}`)
 
-		if (!search) {
-			console.log('`${query}`:', `${query}`)
+		if (!search)
 			return `${query}`
-		}
+
 		const { filters, terms } = search
 		if (terms)
 			query.append('terms', encodeURIComponent(terms))
@@ -52,7 +51,6 @@ export default function SearchContextProvider({ children }: SearchContextProvide
 		}
 		if (filters.sortBy)
 			query.append('sort_by', filters.sortBy)
-		console.log('`${query}`:', `${query}`)
 		return `${query}`
 	}
 	const { data, setSize, isLoading } = useSWRInfinite<Movies>((index, prev) => (prev && prev.length)
