@@ -137,7 +137,7 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 											leaveFrom="transform opacity-100 scale-100"
 											leaveTo="transform opacity-0 scale-95"
 										>
-											<Menu.Items className="absolute top-0 z-10 w-48 ml-2 font-semibold text-black translate-x-12 rounded-md shadow-lg bg-gold ring-1 ring-black ring-opacity-5 focus:outline-none">
+											<Menu.Items className="absolute top-0 z-10 w-48 ml-2 font-semibold text-black translate-x-12 rounded-md shadow-lg bg-gold focus:outline-none">
 												<Login />
 											</Menu.Items>
 										</Transition>

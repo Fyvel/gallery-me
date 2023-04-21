@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Bars3Icon, PowerIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { AdjustmentsHorizontalIcon, Bars3Icon, MagnifyingGlassIcon, PowerIcon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { signOut, useSession } from 'next-auth/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
@@ -12,6 +12,7 @@ import SearchActions from '@/components/search-actions'
 import FilterSelector from '@/components/filter-selector'
 import SearchSelector from '@/components/search-selector'
 import useClickOutside from '@/hooks/use-click-outside'
+import Modal from './modal'
 
 const initialNavigation = [
 	{ name: 'Movies', href: '/movies', current: true, private: false },
@@ -63,6 +64,19 @@ export default function Header() {
 		setShowSearch(false)
 		onClose?.()
 	}
+
+	// prevent scroll when filters or search are open
+	useEffect(() => {
+		if (!showFilters && !showSearch) return
+
+		const html = document.querySelector('html')
+		if (!html) return
+
+		html.style.overflow = 'hidden'
+		return () => {
+			html.style.overflow = 'auto'
+		}
+	}, [showFilters, showSearch])
 
 	return (
 		<header ref={headerRef} className="bg-jet fixed w-full z-[1000]">
@@ -183,18 +197,36 @@ export default function Header() {
 			</Disclosure>
 			<>
 				{showFilters && (
-					<div className="z-50 px-2 pt-4 mx-auto border-b-2 bg-jet max-w-7xl sm:px-6 lg:px-8">
-						<FilterSelector
-							pathname={pathname}
-							onClose={handleClose(close)} />
-					</div>
+					<Modal
+						title={
+							<h1 className="flex flex-row justify-center w-full gap-4 my-4 text-lg">
+								<p>Filters</p>
+								<AdjustmentsHorizontalIcon className="w-6 h-6" />
+							</h1>
+						}
+						onClose={handleClose(close)}>
+						<div className="bg-jet max-w-7xl sm:px-6 lg:px-8">
+							<FilterSelector
+								pathname={pathname}
+								onClose={handleClose(close)} />
+						</div>
+					</Modal>
 				)}
 				{showSearch && (
-					<div className="z-50 px-2 pt-4 mx-auto border-b-2 bg-jet max-w-7xl sm:px-6 lg:px-8">
-						<SearchSelector
-							pathname={pathname}
-							onClose={handleClose(close)} />
-					</div>
+					<Modal
+						title={
+							<h1 className="flex flex-row justify-center w-full gap-4 my-4 text-lg">
+								<p>Search for a movie</p>
+								<MagnifyingGlassIcon className="w-6 h-6" />
+							</h1>
+						}
+						onClose={handleClose(close)}>
+						<div className="bg-jet max-w-7xl sm:px-6 lg:px-8">
+							<SearchSelector
+								pathname={pathname}
+								onClose={handleClose(close)} />
+						</div>
+					</Modal>
 				)}
 			</>
 		</header>

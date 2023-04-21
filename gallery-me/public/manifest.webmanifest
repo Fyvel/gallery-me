@@ -28,8 +28,8 @@
 			"purpose": "maskable"
 		}
 	],
-	"background_color": "#2ba5f7",
-	"theme_color": "#f95428",
+	"background_color": "#142129",
+	"theme_color": "#2BA5F7",
 	"scope": "/",
 	"id": "/?source=pwa",
 	"start_url": "/?source=pwa",
@@ -44,6 +44,18 @@
 			"icons": [
 				{
 					"src": "/shortcuts/movie.png",
+					"sizes": "192x192"
+				}
+			]
+		},
+		{
+			"name": "TV shows",
+			"short_name": "TV shows",
+			"description": "Tv show gallery",
+			"url": "/tv-shows",
+			"icons": [
+				{
+					"src": "/shortcuts/tv-show.png",
 					"sizes": "192x192"
 				}
 			]

@@ -58,7 +58,7 @@ export default function Movies() {
 			{!isLoading && !movies?.length && (<p className="text-center mt-[25%]">No movies found.</p>)}
 			<ul ref={listingRef} className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-69px)]">
 				{movies?.map((movie, idx) => (
-					<li key={movie.id} className="flex flex-col items-center justify-between w-full h-full max-h-[588px] gap-4 border-2 border-solid rounded-lg shadow-md border-slate-300 text-gold sm:snap-start">
+					<li key={movie.id} className="flex flex-col items-center justify-between w-full h-full max-h-[588px] gap-4 border-2 border-solid rounded-lg shadow-md border-slate-300 text-gold lg:snap-start">
 						<div
 							onClick={() => handleMovieClick(movie.id)}
 							className="relative w-full transition-all duration-200 group">

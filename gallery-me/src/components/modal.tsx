@@ -3,14 +3,14 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 type ModalProps = {
 	children: React.ReactNode,
 	onClose: () => void,
-	title?: string,
+	title?: string | React.ReactNode,
 }
 export default function Modal({ children, onClose, title }: ModalProps) {
 
 	const handleClose = () => { onClose && onClose() }
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none bg-gray-500/70">
+		<div className="fixed inset-0 z-[1000] flex justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none bg-gray-500/70">
 			<div className="relative w-full max-w-xl mx-auto my-6">
 				<div className="relative flex flex-col w-full border-0 rounded-lg shadow-lg outline-none focus:outline-none">
 					<div className="flex items-center justify-between p-6 px-10 text-white border-b border-gray-300 border-solid rounded-t-lg bg-jet">

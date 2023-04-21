@@ -1,5 +1,4 @@
-'use client'
 
 export default function TvShows() {
-	return <h1>Hello there</h1>
+	return <h1>🚧 Coming soon 🚧</h1>
 }

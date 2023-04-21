@@ -1,7 +1,7 @@
 'use client'
 
 import { MovieFiltersType, useSearch } from '@/contexts/search-provider'
-import { AdjustmentsHorizontalIcon, ChevronUpIcon } from '@heroicons/react/24/solid'
+import { ChevronUpIcon } from '@heroicons/react/24/solid'
 import { useRef } from 'react'
 import useSWR from 'swr'
 
@@ -33,11 +33,6 @@ export default function MovieFilters({ onClose, initial }: MovieFilterProps) {
 
 	return (
 		<div className="flex flex-col mb-6">
-			<h1 className="flex flex-row justify-center w-full gap-4 my-4 text-lg">
-				<p>Filters</p>
-				<AdjustmentsHorizontalIcon className="w-6 h-6" />
-			</h1>
-			<div className="w-full h-px bg-gray-400" />
 			<div className="grid my-4">
 				<div className="flex flex-col gap-2">
 					<label>Category:</label>

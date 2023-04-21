@@ -53,7 +53,7 @@ export default function Collection({ params: { id } }: CollectionProps) {
 				{items?.docs
 					?.map(doc => ({ id: doc.id, ...doc.data() } as CollectionItem))
 					?.map((item, idx) => (
-						<li key={item.id} className="flex flex-col items-center justify-between w-full h-full max-h-[588px] gap-4 border-2 border-solid rounded-lg shadow-md self-baseline border-slate-300 text-gold sm:snap-start">
+						<li key={item.id} className="flex flex-col items-center justify-between w-full h-full max-h-[588px] gap-4 border-2 border-solid rounded-lg shadow-md self-baseline border-slate-300 text-gold lg:snap-start">
 							<div
 								onClick={() => handleItemClick({ ...item })}
 								className="relative w-full transition-all duration-200 group">
