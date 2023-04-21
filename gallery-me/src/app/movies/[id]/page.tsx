@@ -4,14 +4,16 @@ import '@/utils/StringExtensions'
 import '@/utils/NumberExtensions'
 
 import useSWR from 'swr'
-import { useState } from 'react'
-import { BookmarkIcon, ChevronDownIcon, ChevronUpIcon, FolderPlusIcon, HeartIcon } from '@heroicons/react/24/solid'
-import { Disclosure, Transition } from '@headlessui/react'
+import { Fragment, useState } from 'react'
+import { BookmarkIcon, ChevronDownIcon, ChevronUpIcon, FolderPlusIcon, HeartIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
 import VideoPlayer from '@/components/video-player'
 import Credits from '@/app/movies/components/credits'
 import Videos from '@/app/movies/components/videos'
 import Recommendations from '@/app/movies/components/recommendations'
 import CollectionSelector from '@/components/collection-selector'
+import { useSession } from 'next-auth/react'
+import Login from '@/components/login'
 
 const fetchMovieDetails = (url: string) => fetch(url).then(res => res.json())
 const fetchMovieVideos = (url: string) => fetch(url).then(res => res.json())
@@ -22,6 +24,7 @@ type MovieDetailsProps = {
 	}
 }
 export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
+	const { data: session } = useSession()
 	const { data: movie } = useSWR<Movie>(`/api/movies/${id}`, fetchMovieDetails)
 	const { data: movieVideos } = useSWR<MovieVideo[]>(`/api/movies/${id}/videos`, fetchMovieVideos)
 
@@ -88,7 +91,8 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 									<div className="flex flex-row items-center gap-2">
 										<VideoPlayer
 											video={movieVideos
-												?.filter(mv => mv.type === 'Trailer' && mv.official)
+												?.filter(mv => mv.type === 'Trailer')
+												?.sort((a, b) => (a.official === b.official) ? 0 : a.official ? -1 : 1)
 												?.sort((a, b) => new Date(a.published_at).getTime() - new Date(b.published_at).getTime())[0]}
 											text="Play Trailer" />
 									</div>
@@ -96,20 +100,50 @@ export default function MovieDetails({ params: { id } }: MovieDetailsProps) {
 							)}
 						</div>
 						<p className="mb-6 text-xl italic opacity-80">{movie.tagline}</p>
-						<div className="flex flex-row gap-6 mb-6 text-xs text-center justify-evenly sm:text-sm">
-							<div className="flex flex-col items-center gap-2">
-								<FolderPlusIcon className="w-10 h-10 icon-cta" onClick={() => handleAddToGallery()} />
-								Add to collection
-							</div>
-							<div className="flex flex-col items-center gap-2">
-								<HeartIcon className="w-10 h-10 icon-cta" />
-								Mark as favorite
-							</div>
-							<div className="flex flex-col items-center gap-2">
-								<BookmarkIcon className="w-10 h-10 icon-cta" />
-								Add to watchlist
-							</div>
-						</div>
+
+						{!!session?.user
+							? (
+								<div className="flex flex-row gap-6 mb-6 text-xs text-center justify-evenly sm:text-sm">
+									<div className="flex flex-col items-center gap-2">
+										<FolderPlusIcon className="w-10 h-10 icon-cta" onClick={() => handleAddToGallery()} />
+										Add to collection
+									</div>
+									<div className="flex flex-col items-center gap-2">
+										<HeartIcon className="w-10 h-10 icon-cta" />
+										Mark as favorite
+									</div>
+									<div className="flex flex-col items-center gap-2">
+										<BookmarkIcon className="w-10 h-10 icon-cta" />
+										Add to watchlist
+									</div>
+								</div>
+							)
+							: (
+								<div className="flex flex-row gap-6 mb-6 text-xs sm:text-sm sm:justify-center">
+									<Menu as="div" className="relative">
+										<div>
+											<Menu.Button className="flex flex-col items-center gap-2">
+												<span className="sr-only">Sign in</span>
+												<UserCircleIcon className="w-10 h-10 transition-all duration-200 rotate-180 icon-cta hover:rotate-0" />
+												Sign in
+											</Menu.Button>
+										</div>
+										<Transition
+											as={Fragment}
+											enter="transition ease-out duration-100"
+											enterFrom="transform opacity-0 scale-95"
+											enterTo="transform opacity-100 scale-100"
+											leave="transition ease-in duration-75"
+											leaveFrom="transform opacity-100 scale-100"
+											leaveTo="transform opacity-0 scale-95"
+										>
+											<Menu.Items className="absolute top-0 z-10 w-48 ml-2 font-semibold text-black translate-x-12 rounded-md shadow-lg bg-gold ring-1 ring-black ring-opacity-5 focus:outline-none">
+												<Login />
+											</Menu.Items>
+										</Transition>
+									</Menu>
+								</div>)
+						}
 						<h2 className="mb-3 text-2xl font-bold">Overview</h2>
 						<p className="text-md">{movie.overview}</p>
 					</div>

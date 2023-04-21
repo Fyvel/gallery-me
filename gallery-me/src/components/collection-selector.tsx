@@ -48,7 +48,7 @@ export default function CollectionSelector({ id, type, onClose }: CollectionSele
 			const items = list.items
 			newEnabled[list.id] = items.some((doc: CollectionItem) => doc.id === `${id}`)
 		}
-		setEnabled(newEnabled)		
+		setEnabled(newEnabled)
 	}, [galleries, id])
 
 	const handleSwitchChange = async (collectionId: string) => {

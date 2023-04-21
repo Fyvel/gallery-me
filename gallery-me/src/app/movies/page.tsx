@@ -7,8 +7,10 @@ import { EyeIcon, FolderPlusIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import MovieDetailsPage from '@/app/movies/[id]/page'
 import { useSearch } from '@/contexts/search-provider'
+import { useSession } from 'next-auth/react'
 
 export default function Movies() {
+	const { data: session } = useSession()
 	const { search, data, nextPage, isLoading } = useSearch()
 	const [isOpen, setIsOpen] = useState(false)
 	const [selectedMovieId, setSelectedMovieId] = useState<number | string>()
@@ -84,7 +86,9 @@ export default function Movies() {
 								<p className="text-xl font-semibold text-ellipsis">{movie.title}</p>
 								<p className="text-sm">{movie.release_date}</p>
 							</div>
-							<FolderPlusIcon onClick={() => handleAddToGallery(movie.id)} className="w-10 h-10 ml-3 icon-cta" />
+							{!!session?.user && (
+								<FolderPlusIcon onClick={() => handleAddToGallery(movie.id)} className="w-10 h-10 ml-3 icon-cta" />
+							)}
 						</div>
 					</li>
 				))}
