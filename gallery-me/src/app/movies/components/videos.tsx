@@ -39,6 +39,13 @@ function VideoCard({ video }: { video: MovieVideo }) {
 					allowFullScreen
 					loading="lazy" />
 			)}
+			{video.site === 'Vimeo' && (
+				<iframe
+					src={`https://player.vimeo.com/video/${video.key}`}
+					className="rounded-t-md h-[200px]"
+					allowFullScreen
+					loading="lazy" />
+			)}
 			<div className="flex flex-col flex-grow p-2">
 				<p className="flex-grow text-xl font-bold">{video.name}</p>
 				<p className="">{video.type}</p>
