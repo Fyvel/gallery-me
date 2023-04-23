@@ -30,7 +30,7 @@ html {
 body {
 	font-family: "GalleryMeFont", sans-serif;
 	background-color: #142129;
-	color: var(--text-color);
+	color: #fff;
 }
 
 @layer components {
