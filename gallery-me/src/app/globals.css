@@ -29,17 +29,17 @@ html {
 
 body {
 	font-family: "GalleryMeFont", sans-serif;
-	background-color: var(--body-color);
+	background-color: #142129;
 	color: var(--text-color);
 }
 
 @layer components {
 	.cta {
-		@apply bg-blue text-zinc-800 font-semibold py-2 px-4 rounded-lg shadow-md hover:scale-110 transition-all duration-200 ease-in-out;
+		@apply px-4 py-2 font-semibold transition-all duration-200 ease-in-out rounded-lg shadow-md bg-blue text-zinc-800 hover:scale-110;
 	}
 	.icon-cta {
-		@apply fill-blue hover:cursor-pointer rounded-lg shadow-md hover:scale-125 transition-all duration-200 ease-in-out;
+		@apply transition-all duration-200 ease-in-out rounded-lg shadow-md fill-blue hover:cursor-pointer hover:scale-125;
 	}
 }
 
-/* npx pwa-asset-generator ./public/icons/library.png ./public/icons -b "#6cab0d" */
+/* npx pwa-asset-generator ./public/icons/library.png ./public/icons -b "#142129" */
