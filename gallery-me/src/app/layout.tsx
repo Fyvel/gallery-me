@@ -1,7 +1,6 @@
 import './globals.css'
 import { Sono } from 'next/font/google'
 import { getServerSession } from 'next-auth/next'
-import Pwa from '@/components/pwa'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
@@ -33,7 +32,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					</SessionProvider>
 				</SearchContextProvider>
 			</body>
-			<Pwa />
 		</html>
 	)
 }

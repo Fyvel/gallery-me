@@ -3,6 +3,7 @@ export default function GlobalMetaTags() {
 		<>
 			<meta charSet="utf-8" />
 			<link rel="manifest" href="/manifest.json" />
+			<meta name="keywords" content="gallery, movies, tv shows, books, collections, ratings, list" />
 			<link rel="icon" href="/library-mask.svg" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<meta name="theme-color" content="#142129" />

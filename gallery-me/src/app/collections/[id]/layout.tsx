@@ -2,6 +2,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 	// TODO: figure out how to get the collection name here
 	return {
 		title: 'Collection',
+		description: 'Browse and manage your collection',
 	}
 }
 

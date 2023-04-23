@@ -2,6 +2,7 @@
 import { useEffect } from 'react'
 import { EnumKeys } from '@/utils/EnumHelper'
 import { EventLogger } from '@/utils/EventHelper'
+import { Workbox } from 'workbox-window'
 
 enum WorkerLifeCycleEvent {
 	Installed = 'installed',
@@ -20,13 +21,13 @@ type ServiceWorkerEvents = WorkerEvents & {
 // This hook only run once in browser after the component is rendered for the first time.
 export default function useServiceWorker(eventHandler: ServiceWorkerEvents = {}) {
 	useEffect(() => {
-		if (typeof window === 'undefined' || !('serviceWorker' in navigator) || window.workbox === undefined)
+		if (typeof window === 'undefined' || !('serviceWorker' in navigator))
 			return
+		const wb = window.workbox || new Workbox('/sw.js')
 
 		const promptNewVersionAvailable = eventHandler.promptNewVersionAvailable
 			|| (() => confirm('A newer version of NatuWell is available, reload to update?'))
 
-		const wb = window.workbox
 		// Add event listeners to handle any of PWA lifecycle events
 		for (const eventKey of EnumKeys(WorkerLifeCycleEvent)) {
 			const eventName = WorkerLifeCycleEvent[eventKey]
