@@ -1,14 +1,13 @@
 'use client'
 
 import { MovieFiltersType, useSearch } from '@/contexts/search-provider'
-import { ChevronUpIcon } from '@heroicons/react/24/solid'
-import { useRef } from 'react'
+import { MouseEventHandler, useRef } from 'react'
 import useSWR from 'swr'
 
 const fetchMoviesGenres = (url: string) => fetch(url).then(res => res.json())
 
 type MovieFilterProps = {
-	onClose?: () => void,
+	onClose: () => void,
 	initial: MovieFiltersType,
 }
 export default function MovieFilters({ onClose, initial }: MovieFilterProps) {
@@ -31,8 +30,14 @@ export default function MovieFilters({ onClose, initial }: MovieFilterProps) {
 		setSearch(change)
 	}
 
+	const handleClose: MouseEventHandler<HTMLButtonElement> = event => {
+		event.preventDefault()
+		event.stopPropagation()
+		onClose()
+	}
+
 	return (
-		<div className="flex flex-col mb-6">
+		<div className="flex flex-col">
 			<div className="grid my-4">
 				<div className="flex flex-col gap-2">
 					<label>Category:</label>
@@ -121,19 +126,18 @@ export default function MovieFilters({ onClose, initial }: MovieFilterProps) {
 							.map(year => <option key={year} value={year}>{year}</option>)}
 					</select>
 				</div>
-				<button className="my-4 text-left hover:font-semibold text-orange" role="button"
+				<button className="my-4 text-left hover:font-semibold text-gold" role="button"
 					onClick={() => handleChange(initial)}>
 					Reset filters
 				</button>
 			</div>
-			{onClose && <>
-				<div className="w-full h-px bg-gray-400" />
-				<button className="flex flex-col items-center w-full my-4 text-center cursor-pointer text-gold" role="button"
-					onClick={onClose}>
-					<ChevronUpIcon className="w-6 h-6 duration-100 animate-pulse" />
-					<p className="text-center">Close Filters</p>
-				</button>
-			</>}
+			<div className="w-full h-px bg-gray-400" />
+			<button
+				className="flex flex-col items-center w-full my-6 text-center duration-100 cursor-pointer text-blue animate-pulse"
+				role="button"
+				onClick={handleClose}>
+				<p className="text-center">Apply Filters</p>
+			</button>
 		</div>
 	)
 }

@@ -79,7 +79,7 @@ export default function Header() {
 	}, [showFilters, showSearch])
 
 	return (
-		<header ref={headerRef} className="bg-jet fixed w-full z-[1000]">
+		<header ref={headerRef} className="bg-jet fixed w-full z-[900]">
 			<Disclosure as="nav" className="relative">
 				{({ open }) => (
 					<>
@@ -99,12 +99,11 @@ export default function Header() {
 									<div className="flex items-center flex-shrink-0">
 										<Link href="/">
 											<span className="sr-only">Gallery Me</span>
-											<Image className="block transition-all duration-200 lg:hidden hover:rotate-45" src="/library.svg" alt="" width={40} height={40} priority />
-											<Image className="hidden transition-all duration-200 lg:block hover:rotate-45" src="/library.svg" alt="" width={50} height={50} priority />
+											<Image className="transition-all duration-200 hover:rotate-45" src="/library.svg" alt="" width={40} height={40} priority />
 										</Link>
 									</div>
 									<div className="hidden w-full sm:ml-6 sm:block">
-										<div className="flex justify-center gap-4 text-xs sm:text-sm md:text-md lg:gap-6">
+										<div className="flex items-center gap-4 text-xs sm:text-sm md:text-md lg:gap-6">
 											{navigation
 												.filter(item => !item.private || (item.private && session))
 												.map((item) => (
@@ -119,7 +118,7 @@ export default function Header() {
 														)}
 														aria-current={item.current ? 'page' : undefined}
 													>
-														{item.name}
+														{item.name.replace(' ', '\u00a0')}
 													</a>
 												))}
 										</div>
@@ -174,22 +173,24 @@ export default function Header() {
 						</div>
 						<Disclosure.Panel className="z-50 w-full border-b-2 bg-jet sm:hidden">
 							<div className="px-2 pt-2 pb-3 space-y-1">
-								{navigation.map((item) => (
-									<Disclosure.Button
-										key={item.name}
-										as="a"
-										href={item.href}
-										className={classNames(
-											item.current
-												? 'bg-blue/50 italic'
-												: 'hover:font-bold hover:bg-blue/50',
-											'block rounded-md px-3 py-2 text-base font-medium'
-										)}
-										aria-current={item.current ? 'page' : undefined}
-									>
-										{item.name}
-									</Disclosure.Button>
-								))}
+								{navigation
+									.filter(item => !item.private || (item.private && session))
+									.map((item) => (
+										<Disclosure.Button
+											key={item.name}
+											as="a"
+											href={item.href}
+											className={classNames(
+												item.current
+													? 'bg-blue/50 italic'
+													: 'hover:font-bold hover:bg-blue/50',
+												'block rounded-md px-3 py-2 text-base font-medium'
+											)}
+											aria-current={item.current ? 'page' : undefined}
+										>
+											{item.name}
+										</Disclosure.Button>
+									))}
 							</div>
 						</Disclosure.Panel>
 					</>
@@ -205,7 +206,7 @@ export default function Header() {
 							</h1>
 						}
 						onClose={handleClose(close)}>
-						<div className="bg-jet max-w-7xl sm:px-6 lg:px-8">
+						<div className="px-4 bg-jet max-w-7xl sm:px-6 lg:px-8">
 							<FilterSelector
 								pathname={pathname}
 								onClose={handleClose(close)} />
@@ -221,7 +222,7 @@ export default function Header() {
 							</h1>
 						}
 						onClose={handleClose(close)}>
-						<div className="bg-jet max-w-7xl sm:px-6 lg:px-8">
+						<div className="px-4 bg-jet max-w-7xl sm:px-6 lg:px-8">
 							<SearchSelector
 								pathname={pathname}
 								onClose={handleClose(close)} />

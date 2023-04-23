@@ -19,19 +19,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 	return (
 		<html lang="en" className={galleryMeFont.className}>
-			<body className={`${galleryMeFont.variable} font-sans flex flex-col min-h-screen`}>
-				<Pwa />
+			<body className={`${galleryMeFont.variable} font-sans max-h-screen`}>
 				<SearchContextProvider>
 					<SessionProvider session={session}>
-						<Header />
-						<main className="flex-1 mt-16 bg-nightblue">
-							<ClientProvider />
-							{children}
-						</main>
-						<Footer />
+						<div className="grid grid-cols-1 grid-rows-[auto_1fr_auto]">
+							<Header />
+							<main className="mt-16 bg-nightblue min-h-[calc(100vh_-_216px)] sm:min-h-[calc(100vh_-_152px)]">
+								<ClientProvider />
+								{children}
+							</main>
+							<Footer />
+						</div>
 					</SessionProvider>
 				</SearchContextProvider>
 			</body>
+			<Pwa />
 		</html>
 	)
 }

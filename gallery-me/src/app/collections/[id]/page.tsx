@@ -3,10 +3,10 @@
 import { DbCollections, db } from '@/config/firebase'
 import { query, collection, orderBy } from 'firebase/firestore'
 import { useSession } from 'next-auth/react'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { EyeIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { Transition, Dialog } from '@headlessui/react'
+import { Dialog } from '@headlessui/react'
 import MovieDetailsPage from '@/app/movies/[id]/page'
 // import TvShowDetailsPage from '@/app/tv-shows/[id]/page'
 // import BookDetailsPage from '@/app/books/[id]/page'
@@ -47,9 +47,9 @@ export default function Collection({ params: { id } }: CollectionProps) {
 	}
 
 	return (
-		<div className="relative h-full px-2 pt-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+		<>
 			{loading && (<p className="mt-6 text-center">Loading...</p>)}
-			<ul className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-69px)]">
+			<ul className="grid justify-center gap-4 overflow-scroll grid-cols-posters lg:justify-between snap-y snap-proximity overscroll-y-auto">
 				{items?.docs
 					?.map(doc => ({ id: doc.id, ...doc.data() } as CollectionItem))
 					?.map((item, idx) => (
@@ -85,32 +85,21 @@ export default function Collection({ params: { id } }: CollectionProps) {
 						</li>
 					))}
 			</ul>
-			<Transition show={isOpen} as={Fragment}>
-				<Dialog
-					className="relative z-50"
-					open={isOpen}
-					onClose={handleModalClose}>
-					<Transition.Child
-						as={Fragment}
-						enter="ease-out duration-300"
-						enterFrom="opacity-0"
-						enterTo="opacity-200"
-						leave="ease-in duration-200"
-						leaveFrom="opacity-200"
-						leaveTo="opacity-0"
-					>
-						<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl sm:h-[calc(100%-64px)]">
-							<XMarkIcon
-								onClick={handleModalClose}
-								className="absolute z-10 h-12 cursor-pointer w-h-12 top-4 right-4 sm:right-8 lg:right-10 fill-orange"
-							/>
-							{selectedItem.type === 'movies' && (<MovieDetailsPage params={{ id: `${selectedItem.id}` }} />)}
-							{selectedItem.type === 'tv-shows' && (<h1>{selectedItem.id}</h1>)}
-							{selectedItem.type === 'books' && (<h1>{selectedItem.id}</h1>)}
-						</div>
-					</Transition.Child>
-				</Dialog >
-			</Transition>
-		</div>
+			<Dialog
+				className="relative z-[1000]"
+				open={isOpen}
+				onClose={handleModalClose}
+			>
+				<div className="fixed inset-0 h-full mx-auto max-w-7xl">
+					<XMarkIcon
+						onClick={handleModalClose}
+						className="absolute z-10 h-12 cursor-pointer w-h-12 top-4 right-4 sm:right-8 lg:right-10 fill-orange"
+					/>
+					{selectedItem.type === 'movies' && (<MovieDetailsPage params={{ id: `${selectedItem.id}` }} />)}
+					{selectedItem.type === 'tv-shows' && (<h1>{selectedItem.id}</h1>)}
+					{selectedItem.type === 'books' && (<h1>{selectedItem.id}</h1>)}
+				</div>
+			</Dialog >
+		</>
 	)
 }

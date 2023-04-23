@@ -43,17 +43,19 @@ export default function VideoPlayer({ video, text }: VideoPlayerProps) {
 						leaveFrom="opacity-200"
 						leaveTo="opacity-0"
 					>
-						<div className="fixed inset-0 mx-auto mt-16 group bg-nightblue/80 max-w-7xl">
+						<div className="fixed inset-0 w-full mx-auto mt-16 group bg-nightblue/80 max-w-7xl">
 							{video?.site === 'YouTube' && video?.key && (
 								<YouTube videoId={video.key} opts={youtubeOpts} />
 							)}
 							{video?.site === 'Vimeo' && video?.key && (
 								<Vimeo video={video.key} autoplay responsive />
 							)}
-							<XMarkIcon
-								onClick={() => setIsOpen(false)}
-								className="z-10 hidden w-12 h-12 mx-auto mt-4 rounded-full cursor-pointer group-hover:flex fill-orange bg-slate-50"
-							/>
+							<div className="flex justify-center w-full">
+								<XMarkIcon
+									onClick={() => setIsOpen(false)}
+									className="z-10 hidden w-12 h-12 mt-4 rounded-full cursor-pointer group-hover:flex fill-orange bg-slate-50"
+								/>
+							</div>
 						</div>
 					</Transition.Child>
 				</Dialog >
