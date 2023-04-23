@@ -5,8 +5,8 @@ export default function Head() {
 		<>
 			<GlobalMetaTags />
 			<link rel="preconnect" href="https://image.tmdb.org" />
-			<title>Movies</title>
-			<meta name="description" content="Search for movies to add to your collections" />
+			<title>Collections</title>
+			<meta name="description" content="Browse your gallery" />
 		</>
 	)
 }
