@@ -40,7 +40,7 @@ export default function Collections() {
 
 	return (
 		<>
-			<div className="h-full px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+			<div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
 				<h1 className="my-10 text-3xl font-bold">My Collections</h1>
 				<ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 					{loading && (

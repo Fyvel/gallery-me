@@ -52,7 +52,7 @@ export default function Home() {
 				</div>
 			</HeroContainer>
 
-			<div className="h-full px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+			<div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
 				{/* Featured Collections section */}
 				<div className="mb-20 sm:mb-32">
 					<h2 className="mb-10 text-3xl font-bold">Popular Collections</h2>

@@ -1,4 +1,4 @@
 
 export default function Books() {
-	return <h1>🚧 Coming soon 🚧</h1>
+	return <h1 className="py-8 text-center">🚧 Coming soon 🚧</h1>
 }

@@ -2,9 +2,9 @@
 
 import CollectionSelector from '@/components/collection-selector'
 import useOnScreen from '@/hooks/use-on-screen'
-import { Dialog, Transition, } from '@headlessui/react'
+import { Dialog } from '@headlessui/react'
 import { EyeIcon, FolderPlusIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import MovieDetailsPage from '@/app/movies/[id]/page'
 import { useSearch } from '@/contexts/search-provider'
 import { useSession } from 'next-auth/react'
@@ -16,10 +16,11 @@ export default function Movies() {
 	const [selectedMovieId, setSelectedMovieId] = useState<number | string>()
 	const [showCollectionSelector, setShowCollectionSelector] = useState(false)
 	const [movies, setMovies] = useState<Movie[]>([])
+	const previousRoute = useRef(search?.route)
 
-	const listingRef = useRef<HTMLUListElement>(null)
-	const ref = useRef<HTMLLIElement>(null)
-	const isVisible = useOnScreen(ref)
+	const listingStartRef = useRef<HTMLDivElement>(null)
+	const sentinelRef = useRef<HTMLLIElement>(null)
+	const isVisible = useOnScreen(sentinelRef)
 
 	const handleMovieClick = (movieId: number | string) => {
 		setSelectedMovieId(movieId)
@@ -33,8 +34,11 @@ export default function Movies() {
 	}
 
 	useEffect(() => {
-		document.body.scrollTo({ top: 0, behavior: 'smooth' })
-		listingRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+		if (search?.route === previousRoute.current) return
+		previousRoute.current = search?.route
+		setTimeout(() => {
+			listingStartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+		}, 500)
 	}, [search])
 
 	useEffect(() => {
@@ -56,7 +60,8 @@ export default function Movies() {
 		<>
 			{isLoading && (<p className="mt-6 text-center">Loading...</p>)}
 			{!isLoading && !movies?.length && (<p className="text-center mt-[25%]">No movies found.</p>)}
-			<ul ref={listingRef} className="grid grid-cols-posters justify-center lg:justify-between gap-4 snap-y snap-proximity overflow-scroll overscroll-y-auto h-[100vh] md:h-[calc(100vh-69px)]">
+			<div ref={listingStartRef} className="border-2 border-transparent" />
+			<ul className={'grid justify-center gap-4 overflow-scroll grid-cols-posters lg:justify-between snap-y snap-proximity overscroll-y-auto'}>
 				{movies?.map((movie, idx) => (
 					<li key={movie.id} className="flex flex-col items-center justify-between w-full h-full max-h-[588px] gap-4 border-2 border-solid rounded-lg shadow-md border-slate-300 text-gold lg:snap-start">
 						<div
@@ -92,33 +97,22 @@ export default function Movies() {
 						</div>
 					</li>
 				))}
-				<li ref={ref} className="border-2 border-transparent" />
+				<li ref={sentinelRef} className="border-2 border-transparent" />
 			</ul>
-			<Transition show={isOpen} as={Fragment}>
-				<Dialog
-					className="relative z-50"
-					open={isOpen}
-					onClose={handleModalClose}>
-					<Transition.Child
-						as={Fragment}
-						enter="ease-out duration-300"
-						enterFrom="opacity-0"
-						enterTo="opacity-200"
-						leave="ease-in duration-200"
-						leaveFrom="opacity-200"
-						leaveTo="opacity-0"
-					>
-						<div className="fixed mt-16 inset-0 bg-transparent mx-auto max-w-7xl h-[calc(100%-64px)]">
-							<XMarkIcon
-								onClick={handleModalClose}
-								className="absolute z-10 h-12 cursor-pointer w-h-12 top-4 right-4 sm:right-8 lg:right-10 fill-orange"
-							/>
-							<MovieDetailsPage params={{ id: `${selectedMovieId}` }} />
-						</div>
-					</Transition.Child>
-				</Dialog >
-			</Transition>
 
+			<Dialog
+				className="relative z-[1000]"
+				open={isOpen}
+				onClose={handleModalClose}
+			>
+				<div className="fixed inset-0 h-full mx-auto max-w-7xl">
+					<XMarkIcon
+						onClick={handleModalClose}
+						className="absolute z-10 h-12 cursor-pointer w-h-12 top-4 right-4 sm:right-8 lg:right-10 fill-orange"
+					/>
+					<MovieDetailsPage params={{ id: `${selectedMovieId}` }} />
+				</div>
+			</Dialog>
 			{showCollectionSelector && selectedMovieId &&
 				<CollectionSelector id={selectedMovieId} type="movies" onClose={() => setShowCollectionSelector(false)} />
 			}
