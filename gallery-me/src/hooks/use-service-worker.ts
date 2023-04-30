@@ -1,8 +1,8 @@
 'use client'
+
 import { useEffect } from 'react'
 import { EnumKeys } from '@/utils/EnumHelper'
 import { EventLogger } from '@/utils/EventHelper'
-import { Workbox } from 'workbox-window'
 
 enum WorkerLifeCycleEvent {
 	Installed = 'installed',
@@ -21,10 +21,12 @@ type ServiceWorkerEvents = WorkerEvents & {
 // This hook only run once in browser after the component is rendered for the first time.
 export default function useServiceWorker(eventHandler: ServiceWorkerEvents = {}) {
 	useEffect(() => {
-		if (typeof window === 'undefined' || !('serviceWorker' in navigator))
+		if (typeof window === 'undefined' || !('serviceWorker' in navigator)){
+			console.log('serviceWorker is not supported')
 			return
-		const wb = window.workbox || new Workbox('/sw.js')
+		}
 
+		const wb = window.workbox || window?.navigator?.serviceWorker
 		const promptNewVersionAvailable = eventHandler.promptNewVersionAvailable
 			|| (() => confirm('A newer version of NatuWell is available, reload to update?'))
 
@@ -58,7 +60,6 @@ export default function useServiceWorker(eventHandler: ServiceWorkerEvents = {})
 				: handlePrompt(promptNewVersionAvailable))
 
 		// never forget to call register as auto register is turned off in next.config.js
-		wb.register()
-
+		wb.register('/sw.js', { scope: '/' })
 	}, [eventHandler])
 }
